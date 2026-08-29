@@ -1,0 +1,55 @@
+/* File chooser hack to make the location bar
+   widget to match the window bg color */
+
+filechooser stack {
+    background-color: @theme_bg_color; }
+
+
+filechooser stack box {
+    background-color: @theme_bg_color; }
+
+filechooser stack button box {
+    background-color: @button_bg_color; }
+
+.horizontal.dialog-actionbox {
+    background-color: @theme_bg_color; }
+
+
+/* Fix meld scrolled window appearance */
+
+
+.meld-notebook scrolledwindow {
+    margin: 0; }
+
+
+/* Remove bottom black border from header boxes
+   since the toolbars already have a border */
+
+
+.header-box {
+    margin-top: 0px;
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+    border-left: 2px solid;
+    border-image: url("assets/headerbox.png");
+    border-image-slice: 4 4 4 4;
+    background-color: @toolbar_bg_color; }
+
+
+/* Remove application dialog image icon */
+messagedialog image {
+    margin-left: -1000px;
+}
+
+
+/* Hack to fix "fullscreen" mode in virt-mananger */
+window > box > notebook > stack > box > notebook > stack > notebook > stack > overlay > * {
+    border: none;
+    margin: -1px;
+}
+
+/* Hack to fix big border around encapsulated applications in xfce4-settings-manager */
+dialog.background > box.vertical > box.dialog-vbox.vertical > scrolledwindow  {
+    background-color: @bg_color;
+}
