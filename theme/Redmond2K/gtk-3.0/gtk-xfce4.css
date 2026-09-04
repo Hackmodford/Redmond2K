@@ -1062,7 +1062,7 @@ up to 99 different positions (99 in case of hypothetical multi-monitor setups wi
 /*  Add menu border */
 #whiskermenu-window border {
     padding: 1px;
-    padding-right: 2px;
+    padding-right: 0;
     border-top: 1px solid @bg_color;
     border-bottom: 1px solid @borders;
     border-left: 1px solid @bg_color;
@@ -1136,6 +1136,36 @@ up to 99 different positions (99 in case of hypothetical multi-monitor setups wi
 #whiskermenu-window scrolledwindow:first-child list {
     margin-left: 0; }
 
+/* Divider along the top of the applications list */
+#whiskermenu-window scrolledwindow:not(:first-child) {
+    border-top: 1px solid @dark_shadow;
+    border-left: 1px solid @dark_shadow;
+    border-right: 1px solid @light_shadow;
+    border-bottom: 1px solid @light_shadow;
+    padding-bottom: 0;
+    padding-right: 0;
+    margin-bottom: 4px;
+    margin-top: 0px;
+    margin-right: 0px;
+    box-shadow: 1px 0 @borders inset, 0 1px @borders inset, 0 -1px @bg_color inset; }
+
+#whiskermenu-window scrolledwindow:not(:first-child) list {
+    margin-left: 0;
+    margin-bottom: 0; }
+
+/* Keep app label position while letting hover/selected highlight span full width */
+#whiskermenu-window scrolledwindow:not(:first-child) {
+    padding-left: 1px; }
+
+/* Push the app list icons in from the left (treeview with custom cell renderers) */
+#whiskermenu-window treeview.launchers {
+    padding-left: 4px; }
+
+/* Keep the scrollbar off the sunken frame's right/bottom borders */
+#whiskermenu-window scrolledwindow:not(:first-child) scrollbar {
+    margin-right: 1px;
+    margin-bottom: 1px; }
+
 /* SIDELOGO */
 #whiskermenu-window  {
     box-shadow: inset 22px 0 @bg_shade; }
@@ -1199,10 +1229,10 @@ up to 99 different positions (99 in case of hypothetical multi-monitor setups wi
 .search-area {
     border-top: 1px solid @dark_shadow;
     box-shadow: 0 1px @light_shadow inset;
-    padding-top: 2px;
+    padding-top: 4px;
     margin-top: -6px;
-    margin-right: -8px;
-    margin-bottom: -3px;
+    margin-right: 0px;
+    margin-bottom: 0px;
 }
 
 #whiskermenu-window > frame > stack > box.vertical > box.horizontal button.flat {
@@ -1233,5 +1263,5 @@ up to 99 different positions (99 in case of hypothetical multi-monitor setups wi
 #whiskermenu-window entry {
     margin: 0;
     margin-top: 0px;
-    margin-right: 2px;
+    margin-right: 0px;
     margin-bottom: -2px; }
