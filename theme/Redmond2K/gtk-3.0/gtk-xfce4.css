@@ -1120,25 +1120,36 @@ up to 99 different positions (99 in case of hypothetical multi-monitor setups wi
     box-shadow: none;
     padding: 1px;
     padding-left: 5px;
+    padding-bottom: 6px;
     background-color: @bg_color;
     border: none;
     border-left: 1px solid @dark_shadow;
     box-shadow: 1px 0 @light_shadow inset;
     border-radius: 0px; }
 
+#whiskermenu-window scrolledwindow:first-child {
+    border-left: none;
+    box-shadow: none;
+    padding-left: 0; }
+
+/* Categories list only: kill the left margin inherited from the generic list rule below */
+#whiskermenu-window scrolledwindow:first-child list {
+    margin-left: 0; }
+
 /* SIDELOGO */
 #whiskermenu-window  {
     box-shadow: inset 22px 0 @bg_shade; }
 
 #whiskermenu-window frame {
-    background-image: url("assets/menu_side.png");
-    background-clip: content-box;
-    background-repeat: no-repeat;
-    background-position: 0% 100%; }
+    background-image: url("assets/menu_side.png"), linear-gradient(to bottom, black, #0A246A);
+    background-size: 22px auto, 22px 100%;
+    background-repeat: no-repeat, no-repeat;
+    background-position: left bottom, 0 0; }
 
-#whiskermenu-window frame > stack {
+/* Real widget path is frame > stack > grid > box.vertical (confirmed via GTK Inspector) */
+#whiskermenu-window frame > stack > grid > box.vertical {
     margin-left: 20px;
-    margin-right: -6px; }
+    margin-right: 0px; }
 
 /* SIDELOGOEND */
 
@@ -1148,14 +1159,20 @@ up to 99 different positions (99 in case of hypothetical multi-monitor setups wi
 
 #whiskermenu-window entry {
     border: 1px solid @dark_shadow;
-    box-shadow: none;
+    border-top-color: @dark_shadow;
+    border-left-color: @dark_shadow;
+    border-right-color: @light_shadow;
+    border-bottom-color: @light_shadow;
+    box-shadow: inset 1px 1px @borders, inset -1px -1px @bg_color;
+    background-color: @base_color;
     margin-bottom: 2px;
     margin-left: 2px;
-    margin-right: 2px; }
+    margin-right: 0px; }
 
 
 #whiskermenu-window list {
-    margin: 6px; }
+    margin: 6px;
+    margin-top: 0; }
 
 
 #whiskermenu-window treeview:hover {
@@ -1178,7 +1195,16 @@ up to 99 different positions (99 in case of hypothetical multi-monitor setups wi
     background-color: @selected_bg_color;
     color: @selected_fg_color; }
 
-/* Style menu window logout buttons */
+/* Divider above Whisker Menu search box */
+.search-area {
+    border-top: 1px solid @dark_shadow;
+    box-shadow: 0 1px @light_shadow inset;
+    padding-top: 2px;
+    margin-top: -6px;
+    margin-right: -8px;
+    margin-bottom: -3px;
+}
+
 #whiskermenu-window > frame > stack > box.vertical > box.horizontal button.flat {
     background-color: transparent;
     border: transparent;
@@ -1205,4 +1231,7 @@ up to 99 different positions (99 in case of hypothetical multi-monitor setups wi
     background-image: linear-gradient(to right, @active_title_color1, @active_title_color); }
 
 #whiskermenu-window entry {
-    margin: 0; }
+    margin: 0;
+    margin-top: 0px;
+    margin-right: 2px;
+    margin-bottom: -2px; }

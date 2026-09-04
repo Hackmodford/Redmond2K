@@ -1,0 +1,461 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+@namespace html url("http://www.w3.org/1999/xhtml");
+
+/* --- Navigation toolbar icons --- */
+
+#back-button > .toolbarbutton-icon,
+#forward-button > .toolbarbutton-icon,
+#home-button > .toolbarbutton-icon,
+#reload-button > .toolbarbutton-icon,
+#stop-button > .toolbarbutton-icon {
+    list-style-image: none !important;
+    background-image: var(--navigation-icon) !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: 24px 24px !important;
+}
+
+#back-button > .toolbarbutton-icon {
+    --navigation-icon: url("icons/back.svg");
+}
+
+#back-button {
+    aspect-ratio: 1 / 1 !important;
+}
+
+#forward-button > .toolbarbutton-icon {
+    --navigation-icon: url("icons/forward.svg");
+}
+
+#home-button > .toolbarbutton-icon {
+    --navigation-icon: url("icons/home.svg");
+}
+
+#reload-button > .toolbarbutton-icon {
+    --navigation-icon: url("icons/reload.svg");
+}
+
+#stop-button > .toolbarbutton-icon {
+    --navigation-icon: url("icons/stop.svg");
+}
+
+#reload-button,
+#stop-button,
+#reload-button > .toolbarbutton-icon,
+#stop-button > .toolbarbutton-icon {
+    animation: none !important;
+    transition: none !important;
+}
+
+#stop-reload-button > :is(#reload-button, #stop-button) > .toolbarbutton-animatable-box {
+    display: none !important;
+}
+
+toolbar toolbarbutton:not([disabled]):hover > :is(.toolbarbutton-icon, .toolbarbutton-text, .toolbarbutton-badge-stack) {
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#000000, #000000), linear-gradient(#000000, #000000), linear-gradient(#808080, #808080), linear-gradient(#808080, #808080) !important;
+    background-position: left top, left top, left bottom, right top, left 1px bottom 1px, right 1px top 1px !important;
+    background-size: calc(100% - 1px) 1px, 1px calc(100% - 1px), 100% 1px, 1px 100%, calc(100% - 2px) 1px, 1px calc(100% - 2px) !important;
+    background-repeat: no-repeat !important;
+}
+
+toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .toolbarbutton-text, .toolbarbutton-badge-stack) {
+    background-image: linear-gradient(#000000, #000000), linear-gradient(#000000, #000000), linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#f1f1f0, #f1f1f0), linear-gradient(#f1f1f0, #f1f1f0) !important;
+}
+
+#PersonalToolbar toolbarbutton.bookmark-item:not(.subviewbutton):not([disabled]):hover {
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#000000, #000000), linear-gradient(#000000, #000000), linear-gradient(#808080, #808080), linear-gradient(#808080, #808080) !important;
+    background-position: left top, left top, left bottom, right top, left 1px bottom 1px, right 1px top 1px !important;
+    background-size: calc(100% - 1px) 1px, 1px calc(100% - 1px), 100% 1px, 1px 100%, calc(100% - 2px) 1px, 1px calc(100% - 2px) !important;
+    background-repeat: no-repeat !important;
+}
+
+#PersonalToolbar toolbarbutton.bookmark-item:not(.subviewbutton):not([disabled]):hover:active {
+    background-image: linear-gradient(#000000, #000000), linear-gradient(#000000, #000000), linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#f1f1f0, #f1f1f0), linear-gradient(#f1f1f0, #f1f1f0) !important;
+}
+
+#PersonalToolbar toolbarbutton.bookmark-item:not(.subviewbutton):not([disabled]):hover > :is(.toolbarbutton-icon, .toolbarbutton-text, .toolbarbutton-badge-stack) {
+    background-color: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+#back-button:not([disabled]):hover > .toolbarbutton-icon,
+#forward-button:not([disabled]):hover > .toolbarbutton-icon,
+#home-button:not([disabled]):hover > .toolbarbutton-icon,
+#reload-button:not([disabled]):hover > .toolbarbutton-icon,
+#stop-button:not([disabled]):hover > .toolbarbutton-icon {
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#000000, #000000), linear-gradient(#000000, #000000), linear-gradient(#808080, #808080), linear-gradient(#808080, #808080), var(--navigation-icon) !important;
+    background-position: left top, left top, left bottom, right top, left 1px bottom 1px, right 1px top 1px, center !important;
+    background-size: calc(100% - 1px) 1px, 1px calc(100% - 1px), 100% 1px, 1px 100%, calc(100% - 2px) 1px, 1px calc(100% - 2px), 24px 24px !important;
+    background-repeat: no-repeat !important;
+}
+
+#back-button:not([disabled]):hover:active > .toolbarbutton-icon,
+#forward-button:not([disabled]):hover:active > .toolbarbutton-icon,
+#home-button:not([disabled]):hover:active > .toolbarbutton-icon,
+#reload-button:not([disabled]):hover:active > .toolbarbutton-icon,
+#stop-button:not([disabled]):hover:active > .toolbarbutton-icon {
+    background-image: linear-gradient(#000000, #000000), linear-gradient(#000000, #000000), linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#f1f1f0, #f1f1f0), linear-gradient(#f1f1f0, #f1f1f0), var(--navigation-icon) !important;
+}
+
+/* --- Shared styles: enable relative positioning --- */
+#toolbar-menubar,
+#nav-bar,
+#PersonalToolbar,
+#TabsToolbar,
+#navigator-toolbox {
+    position: relative !important;
+}
+
+/* --- 2px horizontal line ABOVE the Menu Bar --- */
+/* Top pixel: #a19e9a (darker), Bottom pixel: #f1f1f0 (lighter) --- */
+
+#navigator-toolbox::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 1px !important;
+    height: 2px !important;
+    background-image: linear-gradient(
+        to bottom,
+        #a19e9a 0%,
+        #a19e9a 50%,
+        #f1f1f0 50%,
+        #f1f1f0 100%
+    ) !important;
+    pointer-events: none !important;
+    z-index: 9999 !important;
+}
+
+/* --- 2px horizontal line BELOW each toolbar --- */
+/* Top pixel: #a19e9a (darker), Bottom pixel: #f1f1f0 (lighter) --- */
+
+#toolbar-menubar::after,
+#nav-bar::after {
+    content: "" !important;
+    position: absolute !important;
+    bottom: -1px !important;
+    left: 1px !important;
+    right: 1px !important;
+    height: 2px !important;
+    background-image: linear-gradient(
+        to bottom,
+        #a19e9a 0%,
+        #a19e9a 50%,
+        #f1f1f0 50%,
+        #f1f1f0 100%
+    ) !important;
+    pointer-events: none !important;
+    z-index: 9999 !important;
+}
+
+/* --- Vertical 2px line on the LEFT edge of each toolbar --- */
+/* Left pixel: #a19e9a (darker), Right pixel: #f1f1f0 (lighter) --- */
+
+#toolbar-menubar::before,
+#nav-bar::before,
+#PersonalToolbar::before,
+#TabsToolbar::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 1px !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 2px !important;
+    background-image: linear-gradient(
+        to right,
+        #a19e9a 0%,
+        #a19e9a 50%,
+        #f1f1f0 50%,
+        #f1f1f0 100%
+    ) !important;
+    pointer-events: none !important;
+    z-index: 9999 !important;
+}
+
+/* Keep the left outer edge continuous between adjacent toolbars. */
+
+#navigator-toolbox::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 1px !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 2px !important;
+    background-image: linear-gradient(
+        to right,
+        #a19e9a 0%,
+        #a19e9a 50%,
+        #f1f1f0 50%,
+        #f1f1f0 100%
+    ) !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+}
+
+/* --- Vertical 2px line on the RIGHT edge of each toolbar --- */
+/* Left pixel: #a19e9a (darker), Right pixel: #f1f1f0 (lighter) --- */
+/* Uses border-left + box-shadow since ::after is used for horizontal lines --- */
+
+#toolbar-menubar {
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+    padding-bottom: 4px !important;
+}
+
+#toolbar-menubar,
+#nav-bar,
+#PersonalToolbar,
+#TabsToolbar {
+    border-right: 0 !important;
+    box-shadow: inset -1px 0 0 #f1f1f0, inset -2px 0 0 #a19e9a !important;
+}
+
+#TabsToolbar {
+    border-bottom: none !important;
+    outline: none !important;
+}
+
+#TabsToolbar::after {
+    content: "" !important;
+    position: absolute !important;
+    right: -2px !important;
+    bottom: 0 !important;
+    left: -2px !important;
+    height: 4px !important;
+    background-image: linear-gradient(
+        #a19e9a,
+        #a19e9a
+    ), linear-gradient(
+        #f1f1f0,
+        #f1f1f0
+    ), linear-gradient(
+        #d4d0c8,
+        #d4d0c8
+    ) !important;
+    background-position: 0 0, 0 1px, 0 2px !important;
+    background-size: calc(100% - 4px) 1px, 100% 1px, 100% 2px !important;
+    background-repeat: no-repeat, no-repeat, no-repeat !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
+}
+
+#TabsToolbar::before {
+    background-image: linear-gradient(
+        to right,
+        #a19e9a 0 50%,
+        #f1f1f0 50% 100%
+    ), linear-gradient(
+        #a19e9a,
+        #a19e9a
+    ), linear-gradient(
+        #f1f1f0,
+        #f1f1f0
+    ), linear-gradient(
+        #d4d0c8,
+        #d4d0c8
+    ) !important;
+    background-position: left top, left bottom 3px, left bottom 2px, left bottom !important;
+    background-size: 2px calc(100% - 4px), 2px 1px, 2px 1px, 2px 2px !important;
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat !important;
+}
+
+/* --- Tab layout --- */
+
+#tabbrowser-tabs {
+    --tab-border-radius: 6px !important;
+    --tab-overflow-clip-margin: 0px !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+#tabbrowser-tabs .tabbrowser-tab:first-of-type {
+    margin-inline-start: 16px !important;
+}
+
+/* --- Inactive tabs: flat Windows 2000 surface --- */
+
+.tabbrowser-tab:not([selected]):not([visuallyselected]) .tab-background {
+    margin-bottom: 4px !important;
+    border-radius: 6px 6px 0 0 !important;
+    background: linear-gradient(
+        to right,
+        #808080 0 1px,
+        #000000 1px 2px
+    ) right top / 2px calc(100% - 0px) no-repeat border-box, linear-gradient(
+        #f1f1f0,
+        #f1f1f0
+    ) left top / 1.5px calc(100% - 0px) no-repeat border-box, linear-gradient(
+        transparent,
+        transparent
+    ) left bottom / 100% 1px no-repeat border-box, #d4d0c8 padding-box !important;
+    border-top: 1.5px solid #f1f1f0 !important;
+    border-left: 1.5px solid transparent !important;
+    border-right: 2px solid transparent !important;
+    border-bottom: 0px solid transparent !important;
+    box-shadow: none !important;
+}
+
+/* --- Selected tabs: match inactive tab surface --- */
+
+#tabbrowser-tabs .tabbrowser-tab[selected] .tab-background,
+#tabbrowser-tabs .tabbrowser-tab[visuallyselected] .tab-background,
+#tabbrowser-tabs .tab-background[selected],
+#tabbrowser-tabs .tab-background[visuallyselected] {
+    margin-bottom: 0 !important;
+    border-radius: 6px 6px 0 0 !important;
+    background-color: #d4d0c8 !important;
+    background-image: linear-gradient(
+        to right,
+        #808080 0 1px,
+        #000000 1px 2px
+    ), linear-gradient(
+        #f1f1f0,
+        #f1f1f0
+    ) !important;
+    background-position: right top, left top !important;
+    background-size: 2px calc(100% - 2px), 1.5px calc(100% - 2px) !important;
+    background-repeat: no-repeat, no-repeat !important;
+    background-origin: border-box, border-box !important;
+    background-clip: border-box, border-box !important;
+    border-top: 1.5px solid #f1f1f0 !important;
+    border-left: 1.5px solid transparent !important;
+    border-right: 2px solid transparent !important;
+    border-bottom: 0 !important;
+    box-shadow: none !important;
+}
+
+/* Match Waterfox's selected-tab layer directly. */
+
+:root #tabbrowser-tabs .tabbrowser-tab[selected] > .tab-stack > .tab-background[selected],
+:root #tabbrowser-tabs .tabbrowser-tab[visuallyselected] > .tab-stack > .tab-background[selected] {
+    appearance: none !important;
+    outline: none !important;
+    background: linear-gradient(
+        to right,
+        #808080 0 1px,
+        #000000 1px 2px
+    ) right top / 2px calc(100% - 2px) no-repeat border-box, #f1f1f0 left top / 1.5px calc(100% - 2px) no-repeat border-box, #d4d0c8 padding-box !important;
+}
+
+#tabbrowser-tabs .tabbrowser-tab[selected],
+#tabbrowser-tabs .tabbrowser-tab[visuallyselected] {
+    border-bottom: 0 !important;
+}
+
+/* --- Redmond2K browser colors --- */
+
+:root {
+        --lwt-accent-color: #d4d0c8 !important;
+        --lwt-text-color: #000000 !important;
+        --toolbar-bgcolor: #d4d0c8 !important;
+        --toolbar-color: #000000 !important;
+        --toolbar-field-background-color: #ffffff !important;
+        --toolbar-field-color: #000000 !important;
+        --toolbar-field-focus-background-color: #ffffff !important;
+        --toolbar-field-focus-color: #000000 !important;
+        --tab-line-color: #393c39 !important;
+        --tab-loading-fill: #393c39 !important;
+        --arrowpanel-background: #d4d0c8 !important;
+        --arrowpanel-color: #000000 !important;
+        --panel-background: #d4d0c8 !important;
+        --panel-color: #000000 !important;
+}
+
+#navigator-toolbox,
+#toolbar-menubar,
+#nav-bar,
+#PersonalToolbar,
+#TabsToolbar {
+        background-color: #d4d0c8 !important;
+        color: #000000 !important;
+}
+
+#urlbar,
+#searchbar {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+}
+
+#urlbar {
+    --urlbar-background-background-color: #ffffff !important;
+    --urlbar-background-background-color-focused: #ffffff !important;
+    --urlbar-background-border-radius: 0 !important;
+    --urlbar-background-outline-focused: none !important;
+    --urlbar-background-box-shadow-breakout: none !important;
+    --urlbar-background-box-shadow-breakout-compact: none !important;
+}
+
+html|moz-urlbar#urlbar > html|div.urlbar-input-container {
+    border-radius: 0 !important;
+    border-top: 1.5px solid #a19e9a !important;
+    border-left: 1.5px solid #a19e9a !important;
+    border-right: 1.5px solid #ffffff !important;
+    border-bottom: 1.5px solid #ffffff !important;
+    box-shadow: inset 1px 1px 0 #000000, inset -1px -1px 0 #d4d0c8 !important;
+}
+
+html|moz-urlbar#urlbar[focused] > html|div.urlbar-input-container,
+html|moz-urlbar#urlbar[open] > html|div.urlbar-input-container,
+html|moz-urlbar#urlbar[breakout] > html|div.urlbar-input-container {
+    outline: none !important;
+    outline-offset: 0 !important;
+}
+
+html|moz-urlbar#urlbar:is([focused], [open], [breakout]) > html|div.urlbar-background {
+    outline: none !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* --- Browser content: recessed Windows 2000 frame --- */
+
+#tabbrowser-tabbox {
+    box-sizing: border-box !important;
+    margin-top: -1px !important;
+    padding: 1px !important;
+    background-color: #d4d0c8 !important;
+    border-top: 1.5px solid #a19e9a !important;
+    border-left: 1.5px solid #a19e9a !important;
+    border-right: 1.5px solid #ffffff !important;
+    border-bottom: 1.5px solid #ffffff !important;
+    box-shadow: inset 1px 1px 0 #000000, inset -1px -1px 0 #d4d0c8 !important;
+}
+
+#urlbar,
+.urlbar-background {
+    border-radius: 0 !important;
+}
+
+#tabbrowser-tabs .tabbrowser-tab {
+        color: #000000 !important;
+}
+
+menupopup,
+panel {
+        --arrowpanel-background: #d4d0c8 !important;
+        --arrowpanel-color: #000000 !important;
+        --panel-background: #d4d0c8 !important;
+        --panel-color: #000000 !important;
+}
+
+#appMenu-popup,
+#appMenu-popup panelmultiview,
+#appMenu-popup .panel-subview-body {
+    background-color: #d4d0c8 !important;
+    color: #000000 !important;
+}
