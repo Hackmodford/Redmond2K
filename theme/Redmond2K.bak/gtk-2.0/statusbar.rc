@@ -1,0 +1,10 @@
+########################################################################
+# Statusbar
+########################################################################
+
+style "statusbar"
+{
+    #GtkStatusBar::shadow-type = GTK_SHADOW_NONE
+}
+
+widget_class "*<GtkStatusbar>*" style "statusbar"
