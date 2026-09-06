@@ -1,15 +1,19 @@
-html, body {
+html {
     min-height: 100%;
     min-width: 100%;
     padding: 0;
     margin: 0;
-    background: #3A6EA5;
+    background: linear-gradient(to bottom, #0073b3, #00457e);
 }
 
 body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    background: transparent;
     -webkit-user-select: none;
-    font-family: 'Tahoma';
-    font-size: 12pt;
+    font-family: Tahoma, 'MS Sans Serif', sans-serif;
+    font-size: 8pt;
     color: white;
     text-shadow: 0 0 0;
 }
@@ -17,37 +21,103 @@ a {
     text-decoration: none;
 }
 
-img, a, input, select {
+/* Matches selected_bg_color/selected_fg_color from the GTK theme */
+::selection {
+    background: #002468;
+    color: #fff;
+    text-shadow: none;
+}
+
+img, a, input, select, button, #session-combo {
     outline: none;
+}
+
+/* Classic Win2k focus rect: a thin dotted black line inset into the
+   control, used only on button-like controls (real Windows never puts
+   one on a text field - just the caret). */
+button:focus,
+#session-combo:focus {
+    outline: 1px dotted #000000;
+    outline-offset: -4px;
+}
+
+/* Raised Win2k bevel (2px): top-left light, bottom-right dark. Pure gradients, no border. */
+#box,
+button,
+#session-arrow,
+#message-dialog {
+    border: none;
+    box-shadow: none;
+    background-repeat: no-repeat;
+    background-image:
+        linear-gradient(#060606, #060606),
+        linear-gradient(#060606, #060606),
+        linear-gradient(#94918c, #94918c),
+        linear-gradient(#94918c, #94918c),
+        linear-gradient(#d4d0c8, #d4d0c8),
+        linear-gradient(#d4d0c8, #d4d0c8),
+        linear-gradient(#ffffff, #ffffff),
+        linear-gradient(#ffffff, #ffffff);
+    background-position:
+        left bottom, right top,
+        left 1px bottom 1px, right 1px top 1px,
+        left top, left top,
+        left 1px top 1px, left 1px top 1px;
+    background-size:
+        100% 1px, 1px 100%,
+        calc(100% - 2px) 1px, 1px calc(100% - 2px),
+        calc(100% - 1px) 1px, 1px calc(100% - 1px),
+        calc(100% - 3px) 1px, 1px calc(100% - 3px);
 }
 
 #box {
     position: absolute;
     display: inline-block;
-    background: #c0c0c0;
-    padding: 2px 2px 2px 2px;
-    border: none;
-    box-shadow:
-        inset -1px -1px #0a0a0a,
-        inset 1px 1px #fff,
-        inset -2px -2px #808080,
-        inset 2px 2px #dfdfdf;
-
+    background-color: #D4D0C8;
+    padding: 2px;
 }
 
 .box-inner {
     color: black;
-    width: 550px;
+    width: 430px;
     padding: 0px;
 }
 
 .body-row {
     display: grid;
-    grid-template-columns: 15% 1fr 15%;
-    gap: 8px;
-    margin: 8px;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin: 16px;
 }
 
+.banner {
+    display: block;
+    margin-top: 2px;
+    margin-left: 1px;
+    margin-right: 1px;
+    width: calc(100% - 2px);
+    height: 100px;
+    object-fit: cover;
+    object-position: top;
+}
+
+/* Thin divider under the banner, same gradient as the title bar */
+.banner-divider {
+    height: 4px;
+    margin-left: 1px;
+    margin-right: 1px;
+    background-image: -webkit-linear-gradient(left, #013755, #9ec0da, #013755);
+    background-image: -moz-linear-gradient(left, #013755, #9ec0da, #013755);
+    background-image: linear-gradient(to right, #013755, #9ec0da, #013755);
+
+    /* background-image: -webkit-linear-gradient(left, #1e132b, #827493, #1e132b);
+    background-image: -moz-linear-gradient(left, #1e132b, #827493, #1e132b);
+    background-image: linear-gradient(to right, #1e132b, #827493, #1e132b); */
+
+    /* background-image: -webkit-linear-gradient(left, #282200, #ffe552, #282200);
+    background-image: -moz-linear-gradient(left, #282200, #ffe552, #282200);
+    background-image: linear-gradient(to right, #282200, #ffe552, #282200); */
+}
 
 /* Image Region */
 .box-inner .left { 
@@ -64,68 +134,79 @@ img, a, input, select {
 
 /* Buttons Region */
 .box-inner .right {
-     text-align: center;	
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+}
+
+.box-inner .right button {
+    width: auto;
+    min-width: 75px;
+    margin-bottom: 0;
 }
 
 /* Content Region */
 .box-inner .content {
-    font-size: 9pt;
-    font-family: 'Tahoma';
-    margin-right: 8px;
+    font-size: 8pt;
+    font-family: Tahoma, 'MS Sans Serif', sans-serif;
 }
 
 button,
 button:hover {
         width: 100%;
-        font-size: 9pt;
-        font-family: 'Tahoma';
+        font-size: 8pt;
+        font-family: Tahoma, 'MS Sans Serif', sans-serif;
 	display: inline-block;
 	padding: 4px;
-	border-radius: 1px;
+    border-radius: 0;
 	color: black;
-	background: silver;
+	background-color: #D4D0C8;
+    white-space: nowrap;
 }
 
 button {
     margin-bottom: 8px;
-	border: none;
-	box-shadow:
-		inset -1px -1px #0a0a0a,
-		inset 1px 1px #fff,
-		inset -2px -2px #808080,
-		inset 2px 2px #dfdfdf;
+    min-height: 23px;
+    box-sizing: border-box;
 }
 
+/* Pressed: swap to the inset arrangement (top-left dark, bottom-right light). */
 button:active {
-	box-shadow:
-		inset -1px -1px #fff,
-		inset 1px 1px #0a0a0a,
-		inset -2px -2px #dfdfdf,
-		inset 2px 2px #808080;
+    background-image:
+        linear-gradient(#d4d0c8, #d4d0c8),
+        linear-gradient(#d4d0c8, #d4d0c8),
+        linear-gradient(#ffffff, #ffffff),
+        linear-gradient(#ffffff, #ffffff),
+        linear-gradient(#060606, #060606),
+        linear-gradient(#060606, #060606),
+        linear-gradient(#94918c, #94918c),
+        linear-gradient(#94918c, #94918c);
 }
 
 .header {
     padding: 0px;
-    width: 100%;
     height: 18px;
     line-height: 18px;
     padding-left: 4px;
+    margin-left: 1px;
+    margin-top: 1px;
+    margin-right: 1px;
     box-sizing: border-box;
-    font-size: 9pt;
+    font-size: 8pt;
     text-align: left;
-    font-family: 'Tahoma';
-    font-weight: normal;
+    font-family: Tahoma, 'MS Sans Serif', sans-serif;
+    font-weight: bold;
     background-image: -webkit-linear-gradient(left, #0a246a, #a6caf0);
     background-image: -moz-linear-gradient(left, #0a246a, #a6caf0);
     background-image: linear-gradient(to right, #0a246a, #a6caf0);
-    color: white;
+    color: #F8FCF8;
     text-shadow: 0 0 0;
-    display: inline-block;
 }
 
 
 .footer {
-    font-size: 9pt;
+    font-size: 8pt;
 }
 
 hr {
@@ -151,9 +232,7 @@ hr {
 }
 
 #form {
-    width: 100%;
-    margin-top: 16px;
-    float: left;
+    width: 80%;
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
@@ -175,62 +254,220 @@ hr {
     white-space: nowrap;
     text-align: left;
     color: black;
+    font-size: 8pt;
+    font-family: Tahoma, 'MS Sans Serif', sans-serif;
 }
 
 #form form input {
     width: 100%;
     border: none;
-    box-shadow:
-        inset -1px -1px #fff,
-        inset 1px 1px #0a0a0a,
-        inset -2px -2px #dfdfdf,
-        inset 2px 2px #808080;
-    padding: 0 0 0 5px;
-    height: 20pt;
+    padding: 2px 2px 2px 5px;
+    height: 23px;
     color: black;
+    box-sizing: border-box;
+    font-size: 8pt;
+    font-family: Tahoma, 'MS Sans Serif', sans-serif;
+}
+
+#session-combo {
+    position: relative;
+    width: 100%;
+    height: 23px;
+    line-height: 19px;
+    border: none;
+    padding: 2px 20px 2px 5px;
+    color: black;
+    font-family: Tahoma, 'MS Sans Serif', sans-serif;
+    font-size: 8pt;
+    box-sizing: border-box;
+    cursor: default;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* Inset Win2k bevel (2px): top-left dark, bottom-right light. Pure gradients, no border. */
+#form form input,
+#session-combo {
+    background-color: #ffffff;
+    background-repeat: no-repeat;
+    background-image:
+        linear-gradient(#d4d0c8, #d4d0c8),
+        linear-gradient(#d4d0c8, #d4d0c8),
+        linear-gradient(#ffffff, #ffffff),
+        linear-gradient(#ffffff, #ffffff),
+        linear-gradient(#060606, #060606),
+        linear-gradient(#060606, #060606),
+        linear-gradient(#94918c, #94918c),
+        linear-gradient(#94918c, #94918c);
+    background-position:
+        left bottom, right top,
+        left 1px bottom 1px, right 1px top 1px,
+        left top, left top,
+        left 1px top 1px, left 1px top 1px;
+    background-size:
+        100% 1px, 1px 100%,
+        calc(100% - 2px) 1px, 1px calc(100% - 2px),
+        calc(100% - 1px) 1px, 1px calc(100% - 1px),
+        calc(100% - 3px) 1px, 1px calc(100% - 3px);
+}
+
+#session-arrow {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 19px;
+    height: 19px;
+    background-color: #D4D0C8;
     box-sizing: border-box;
 }
 
-#actions {
+#session-arrow::after {
+    content: "";
     position: absolute;
-    top: -3em;
+    top: 50%;
+    left: 50%;
+    margin: -2px 0 0 -4px;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid #000;
+}
+
+#session-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
     right: 0;
-    display: inline-block;
-    background: url(../img/fabric_of_squares_gray.png);
-    padding: 5px;
-    box-shadow: 2px 2px 5px #555;
-    border: 1px solid #f0f0f0;
+    z-index: 10;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: #fff;
+    border: 1px solid #060606;
+    max-height: 120pt;
+    overflow-y: auto;
 }
 
-#actions-inner {
-    padding: 0 10px;
-    border: 1px solid #e0e0e0;
+#session-combo.open {
+    overflow: visible;
 }
 
-#actions-inner a {
-    margin-right: 10px;
+/* Greyed-out state while an authentication attempt is in flight.
+   Matches classic Win32 disabled controls: an edit field's white fill
+   swaps for the window's face color, and button text becomes engraved -
+   GrayText with a 1px highlight offset, using the same highlight tone
+   (#ffffff) as the bottom-right of the inset textfield bevel. */
+#form form input:disabled,
+#session-combo.disabled {
+    background-color: #D4D0C8;
+    cursor: default;
 }
 
-#actions-inner a:hover {
-    cursor: pointer;
+#session-combo.disabled {
+    pointer-events: none;
 }
 
-#actions-inner a:last-child {
-    margin-right: 0;
+button:disabled {
+    color: #A9A6A0;
+    text-shadow: 1px 1px 0 #ffffff;
+    cursor: default;
 }
 
-#message {
-    border: 0px solid red;
-    float: bottom;
+#session-combo.open #session-list {
+    display: block;
+}
+
+#session-list li {
+    padding: 2px 5px;
+    color: #000;
+}
+
+/* Blue highlight follows whichever row is current - mouse hover re-selects
+   live (see onmouseenter in main.js), so this is the only highlight state
+   and keyboard/mouse can never point at two different rows at once */
+#session-list li.selected {
+    background: #002468;
+    color: #fff;
+}
+
+#actions {
+    display: flex;
+    gap: 8px;
+}
+
+#actions button {
+    width: auto;
+    min-width: 75px;
+    flex-shrink: 0;
+    padding: 4px 10px;
+}
+
+/* Win2k-style "Logon Message" modal, used for lightdm's show_message (info/error) */
+#message-dialog {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    background-color: #D4D0C8;
+    padding: 2px;
+}
+
+#message-dialog.open {
+    display: block;
+}
+
+.dialog-inner {
     color: black;
-    display: inline-block;
-    padding: 0 10px;
+    width: 320px;
+    padding: 0;
 }
 
-#message.error {
-    color: #f0f0f0;
-    background: #FF6B6B;
-    text-shadow: none;
+.dialog-body {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 16px;
+    font-size: 8pt;
+    font-family: Tahoma, 'MS Sans Serif', sans-serif;
+}
+
+#message-dialog-icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+.dialog-actions {
+    display: flex;
+    justify-content: center;
+    margin: 0 16px 8px;
+}
+
+.dialog-actions button {
+    width: auto;
+    min-width: 75px;
+}
+
+/* Dev-only preview controls, created by main.js only when js/mock.js is
+   driving the page - never present against the real lightdm bridge */
+#debug-panel {
+    position: fixed;
+    bottom: 8px;
+    left: 8px;
+    z-index: 1000;
+    display: flex;
+    gap: 8px;
+}
+
+#debug-panel button {
+    width: auto;
+    min-width: 0;
+    margin-bottom: 0;
 }
 
 

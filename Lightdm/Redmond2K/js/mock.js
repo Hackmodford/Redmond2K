@@ -1,6 +1,7 @@
 // mock lighdm for testing
 if (typeof lightdm == 'undefined') {
     lightdm= {};
+    lightdm._is_mock= true;
     lightdm.hostname="test-host";
     lightdm.languages= [{code: "en_US", name: "English(US)", territory: "USA"}, {code: "en_UK", name: "English(UK)", territory: "UK"}];
     lightdm.default_language= lightdm.languages[0];
@@ -30,14 +31,14 @@ if (typeof lightdm == 'undefined') {
     lightdm.get_string_property= function() {};
     lightdm.get_integer_property= function() {};
     lightdm.get_boolean_property= function() {};
-    lightdm.cancel_timed_login= function() {
+    lightdm.cancel_autologin= function() {
         _lightdm_mock_check_argument_length(arguments, 0);
         lightdm._timed_login_cancelled= true;
     };
 
-    lightdm.provide_secret= function(secret) {
+    lightdm.respond= function(secret) {
         if (typeof lightdm._username == 'undefined' || !lightdm._username) {
-            throw "must call start_authentication first"
+            throw "must call authenticate first"
         }
         _lightdm_mock_check_argument_length(arguments, 1);
         var user= _lightdm_mock_get_user(lightdm.username);
@@ -53,7 +54,7 @@ if (typeof lightdm == 'undefined') {
         authentication_complete();
     };
 
-    lightdm.start_authentication= function(username) {
+    lightdm.authenticate= function(username) {
         _lightdm_mock_check_argument_length(arguments, 1);
         if (lightdm._username) {
             throw "Already authenticating!";
@@ -62,7 +63,7 @@ if (typeof lightdm == 'undefined') {
         if (!user) {
             show_error(username + " is an invalid user");
         }
-        show_prompt("Password: ");
+        show_prompt("Password: ", "password");
         lightdm._username= username;
     };
 
@@ -94,13 +95,10 @@ if (typeof lightdm == 'undefined') {
         document.location.reload(true);
     };
 
-    lightdm.login= function(user, session) {
-        _lightdm_mock_check_argument_length(arguments, 2);
+    lightdm.start_session_sync= function(session) {
+        _lightdm_mock_check_argument_length(arguments, 1);
         if (!lightdm.is_authenticated) {
             throw "The system is not authenticated";
-        }
-        if (user !== lightdm.authentication_user) {
-            throw "this user is not authenticated";
         }
         alert("logged in successfully!!");
         document.location.reload(true);
