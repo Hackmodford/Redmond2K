@@ -411,7 +411,7 @@ XfdesktopIconView:active {
 /* Overlay hacks for Deskbar to compensate for class restrictions. Not Perfect! */
 
 #pulseaudio-button .vertical > image {
-    -gtk-icon-transform: scale(50%);
+    -gtk-icon-transform: scale(0.5);
     margin-left: 1px;
     margin-right: -1px;
     margin-bottom: -1px;
@@ -426,7 +426,7 @@ XfdesktopIconView:active {
 }
 
 #pulseaudio-button:active .vertical > image, #pulseaudio-button:checked .vertical > image {
-    -gtk-icon-transform: scale(50%);
+    -gtk-icon-transform: scale(0.5);
     border-radius: 0px;
     border-top: 1px solid @borders;
     border-left: 1px solid @borders;
