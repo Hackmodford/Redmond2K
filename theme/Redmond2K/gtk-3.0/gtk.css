@@ -6,8 +6,8 @@
 @define-color selected_bg_color #002468;
 @define-color selected_fg_color #FFFFFF;
 @define-color light_shadow #FFFFFF;
-@define-color dark_shadow #94918C;
-@define-color borders #060606;
+@define-color dark_shadow #7F7F77;
+@define-color borders #3F3F3F;
 @define-color button_bg_color @bg_color;
 @define-color button_fg_color @fg_color;
 @define-color toolbar_bg_color @button_bg_color;
@@ -18,11 +18,11 @@
 @define-color disabled_fg_color #A9A6A0;
 @define-color active_title_color #7191C2;
 @define-color active_title_color1 #7191C2;
-@define-color active_title_text #F8FCF8;
+@define-color active_title_text #FFFFFF;
 
 /*Headerbar Stuff*/
 @define-color wm_active_title #7191C2;
-@define-color wm_active_title_text #F8FCF8;
+@define-color wm_active_title_text #FFFFFF;
 @define-color wm_inactive_title #808080;
 @define-color wm_inactive_title_text #FFFFFF;
 /* begin */
