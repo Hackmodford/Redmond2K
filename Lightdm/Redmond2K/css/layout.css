@@ -41,40 +41,55 @@ button:focus,
     outline-offset: -4px;
 }
 
-/* Raised Win2k bevel (2px): top-left light, bottom-right dark. Pure gradients, no border. */
+/* Pseudo-3D bevels are nine-slice PNGs instead of stacked gradients. The art
+   is authored at 2x - a 10x10 image is a 5x5 logical grid - so a 4px slice
+   leaves a 2 CSS px frame, and because main.js scales the body so one authored
+   px is always 2 device px, every slice lands on whole device pixels.
+   Windows, buttons and sunken fields each get their own art: the edge colours
+   genuinely differ between them in Win2k, so one shared bevel cannot cover all
+   three. This block carries the shared setup plus the window frame; the rules
+   below only swap the source. */
 #box,
+#message-dialog,
 button,
 #session-arrow,
-#message-dialog {
-    border: none;
+#form form input,
+#session-combo {
+    background-image: none;
     box-shadow: none;
-    background-repeat: no-repeat;
-    background-image:
-        linear-gradient(#060606, #060606),
-        linear-gradient(#060606, #060606),
-        linear-gradient(#94918c, #94918c),
-        linear-gradient(#94918c, #94918c),
-        linear-gradient(#d4d0c8, #d4d0c8),
-        linear-gradient(#d4d0c8, #d4d0c8),
-        linear-gradient(#ffffff, #ffffff),
-        linear-gradient(#ffffff, #ffffff);
-    background-position:
-        left bottom, right top,
-        left 1px bottom 1px, right 1px top 1px,
-        left top, left top,
-        left 1px top 1px, left 1px top 1px;
-    background-size:
-        100% 1px, 1px 100%,
-        calc(100% - 2px) 1px, 1px calc(100% - 2px),
-        calc(100% - 1px) 1px, 1px calc(100% - 1px),
-        calc(100% - 3px) 1px, 1px calc(100% - 3px);
+    border: 2px solid transparent;
+    border-image: url("../img/window-border-9p-2x.png") 4 / 2px stretch;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+/* Buttons sit a step brighter than the window frame: their outer top-left edge
+   is white where the window's is face-coloured. */
+button,
+#session-arrow {
+    border-image-source: url("../img/button-border-9p-2x.png");
+}
+
+/* Sunken edit fields: the raised order reversed, dark at the top-left. */
+#form form input,
+#session-combo {
+    border-image-source: url("../img/textfield-border-9p-2x.png");
+}
+
+/* A pressed button drops the bevel for a flat ring - dark outside, grey
+   inside - so it reads as pushed in without any light edge. Same 2px frame as
+   the other states, so pressing never resizes the button or shifts its label. */
+button:active,
+#session-combo.open #session-arrow {
+    border-image: url("../img/button-pressed-border-9p-2x.png") 4 / 2px stretch;
 }
 
 #box {
     position: absolute;
     display: inline-block;
     background-color: #D4D0C8;
-    padding: 2px;
+    padding: 0;
 }
 
 .box-inner {
@@ -92,6 +107,7 @@ button,
 
 .banner {
     display: block;
+    image-rendering: auto;
     margin-top: 2px;
     margin-left: 1px;
     margin-right: 1px;
@@ -158,7 +174,7 @@ button:hover {
         font-size: 8pt;
         font-family: Tahoma, 'MS Sans Serif', sans-serif;
 	display: inline-block;
-	padding: 4px;
+	padding: 2px;
     border-radius: 0;
 	color: black;
 	background-color: #D4D0C8;
@@ -169,19 +185,6 @@ button {
     margin-bottom: 8px;
     min-height: 23px;
     box-sizing: border-box;
-}
-
-/* Pressed: swap to the inset arrangement (top-left dark, bottom-right light). */
-button:active {
-    background-image:
-        linear-gradient(#d4d0c8, #d4d0c8),
-        linear-gradient(#d4d0c8, #d4d0c8),
-        linear-gradient(#ffffff, #ffffff),
-        linear-gradient(#ffffff, #ffffff),
-        linear-gradient(#060606, #060606),
-        linear-gradient(#060606, #060606),
-        linear-gradient(#94918c, #94918c),
-        linear-gradient(#94918c, #94918c);
 }
 
 .header {
@@ -260,8 +263,7 @@ hr {
 
 #form form input {
     width: 100%;
-    border: none;
-    padding: 2px 2px 2px 5px;
+    padding: 0 0 0 3px;
     height: 23px;
     color: black;
     box-sizing: border-box;
@@ -272,10 +274,9 @@ hr {
 #session-combo {
     position: relative;
     width: 100%;
-    height: 23px;
-    line-height: 19px;
-    border: none;
-    padding: 2px 20px 2px 5px;
+    height: 24px;
+    line-height: 20px;
+    padding: 0 18px 0 3px;
     color: black;
     font-family: Tahoma, 'MS Sans Serif', sans-serif;
     font-size: 8pt;
@@ -285,36 +286,22 @@ hr {
     white-space: nowrap;
 }
 
-/* Inset Win2k bevel (2px): top-left dark, bottom-right light. Pure gradients, no border. */
 #form form input,
 #session-combo {
     background-color: #ffffff;
-    background-repeat: no-repeat;
-    background-image:
-        linear-gradient(#d4d0c8, #d4d0c8),
-        linear-gradient(#d4d0c8, #d4d0c8),
-        linear-gradient(#ffffff, #ffffff),
-        linear-gradient(#ffffff, #ffffff),
-        linear-gradient(#060606, #060606),
-        linear-gradient(#060606, #060606),
-        linear-gradient(#94918c, #94918c),
-        linear-gradient(#94918c, #94918c);
-    background-position:
-        left bottom, right top,
-        left 1px bottom 1px, right 1px top 1px,
-        left top, left top,
-        left 1px top 1px, left 1px top 1px;
-    background-size:
-        100% 1px, 1px 100%,
-        calc(100% - 2px) 1px, 1px calc(100% - 2px),
-        calc(100% - 1px) 1px, 1px calc(100% - 1px),
-        calc(100% - 3px) 1px, 1px calc(100% - 3px);
 }
 
+/* The drop button is inset a px from the top and right of the field's client
+   area rather than filling it. That inset is why #session-combo is 24px where
+   an edit field is 23px: the client area has to be 20px for a 19px button to
+   clear the top edge, and without the extra px it would hang past the padding
+   box and overflow: hidden would shave off its bottom shadow. An absolutely
+   positioned child is already inset by the combo's own 2px border, so 1px here
+   puts the button 3px in from the control's outer edge. */
 #session-arrow {
     position: absolute;
-    top: 2px;
-    right: 2px;
+    top: 1px;
+    right: 1px;
     width: 19px;
     height: 19px;
     background-color: #D4D0C8;
@@ -399,7 +386,7 @@ button:disabled {
     width: auto;
     min-width: 75px;
     flex-shrink: 0;
-    padding: 4px 10px;
+    padding: 2px 8px;
 }
 
 /* Win2k-style "Logon Message" modal, used for lightdm's show_message (info/error) */
@@ -411,7 +398,7 @@ button:disabled {
     transform: translate(-50%, -50%);
     z-index: 100;
     background-color: #D4D0C8;
-    padding: 2px;
+    padding: 0;
 }
 
 #message-dialog.open {

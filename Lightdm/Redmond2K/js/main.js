@@ -250,6 +250,7 @@ function bindAction(id, enabled, action) {
         return;
     }
     el.onclick = function(e) {
+        el.blur();
         action();
         e.stopPropagation();
         e.preventDefault(true);
