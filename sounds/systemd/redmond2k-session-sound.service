@@ -1,0 +1,14 @@
+[Unit]
+Description=Redmond2K session-end sound
+Documentation=https://github.com/Hackmodford/Redmond2K
+After=systemd-logind.service dbus.service
+Wants=systemd-logind.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/redmond2k-session-sound
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
