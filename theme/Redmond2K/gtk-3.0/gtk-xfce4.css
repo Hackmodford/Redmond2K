@@ -182,17 +182,24 @@ XfdesktopIconView {
     outline-style: hidden;
 }
 
-XfdesktopIconView .view {
-    color: #fff;
+XfdesktopIconView.view.label {
     background-color: transparent;
-    text-shadow: 1px 1px #000; }
+    color: #fff;
+    text-shadow: 1px 1px #000;
+    border-radius: 0; }
 
-XfdesktopIconView .view:active {
-    color: #fff; }
+/* xfdesktop tints a selected icon's image with whatever colour :active
+   resolves to - the only way to reach the icon graphic itself. */
+XfdesktopIconView.view:active {
+    color: @selected_bg_color; }
 
-XfdesktopIconView:active {
-    color: @selected_bg_color;
-    background-color: @selected_bg_color; }
+/* Painted as an image, not a colour: with a custom label background colour
+   set in Desktop Settings, xfdesktop injects its own background-color at
+   USER priority, which outranks the theme and has no :selected variant. */
+XfdesktopIconView.view.label:selected {
+    color: @theme_selected_fg_color;
+    background-image: linear-gradient(@selected_bg_color, @selected_bg_color);
+    text-shadow: none; }
 
 
 /*---------------------*/
