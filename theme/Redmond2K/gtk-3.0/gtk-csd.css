@@ -78,8 +78,13 @@ window.background.csd headerbar:backdrop label.subtitle,window.background.solid-
  ***************/
 
 /*Fix borders for CSD: GTK3*/
+/* GTK dialogs with their own node name need listing too, e.g. the
+   Whisker Menu logout confirmation is a messagedialog. Don't use a
+   bare .csd here: tooltips are .csd as well and shouldn't get a border. */
 window.csd > decoration, window.csd.unified > decoration,
-dialog.csd > decoration, dialog.csd.unified > decoration {
+dialog.csd > decoration, dialog.csd.unified > decoration,
+messagedialog.csd > decoration, assistant.csd > decoration,
+printdialog.csd > decoration {
     padding: 3px;
     background-color: @bg_color;
     border: 1px solid @bg_color;
