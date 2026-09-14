@@ -216,6 +216,91 @@ XfdesktopIconView.view.label:selected {
     border-radius: 0; }
 
 
+/*----------------------------*/
+/* Xfwm4 Alt+Tab App Switcher */
+/*----------------------------*/
+
+/* xfwm4 only applies its built-in rounded style when the theme
+   doesn't mention #xfwm-tabwin, so defining it here replaces it. */
+
+/* Spacing follows the Windows ME switcher: 32px icons in a 40px
+   selection square. xfwm4 reserves room under each icon for the app
+   name based on this window's font, so the font is shrunk here to
+   pack icons tightly and restored on the labels that show text. */
+
+#xfwm-tabwin {
+    -XfwmTabwinWidget-icon-size: 32px;
+    font-size: 1px;
+    padding: 8px;
+    background-color: @bg_color;
+    border: 1px solid @bg_color;
+    border-right: 1px solid @borders;
+    border-bottom: 1px solid @borders;
+    box-shadow: 1px 1px @light_shadow inset, -1px -1px @dark_shadow inset;
+    border-radius: 0; }
+
+#xfwm-tabwin.tabwin-app-list button label {
+    font: initial; }
+
+#xfwm-tabwin.tabwin-app-grid > box > grid {
+    margin-top: 7px; }
+
+#xfwm-tabwin button {
+    border: 2px solid transparent;
+    border-radius: 0;
+    outline-color: transparent;
+    box-shadow: none;
+    background-image: none;
+    background-color: transparent;
+    color: @fg_color; }
+
+#xfwm-tabwin.tabwin-app-list button:hover,
+#xfwm-tabwin.tabwin-app-list button:checked {
+    border-color: @selected_bg_color; }
+
+/* In grid mode draw the selection square around the icon instead of
+   the whole button, so it skips the space reserved for the app name.
+   xfwm4 sizes buttons with only 10px of slack (2 * WIN_ICON_BORDER),
+   so image border + padding must stay within that. */
+
+#xfwm-tabwin.tabwin-app-grid button {
+    padding: 0;
+    border-width: 0; }
+
+#xfwm-tabwin.tabwin-app-grid button image {
+    padding: 2px;
+    border: 2px solid transparent; }
+
+#xfwm-tabwin.tabwin-app-grid button:hover image,
+#xfwm-tabwin.tabwin-app-grid button:checked image {
+    border-color: @selected_bg_color; }
+
+/* Cancel the shift-on-press effect from gtk-pushbuttons.css. xfwm4
+   drops :checked while the selected item is hovered, which would
+   make its contents jump. */
+
+#xfwm-tabwin button > box {
+    margin: 0; }
+
+/* Hide the app name xfwm4 shows under the selected or hovered icon.
+   GTK3 CSS can't remove the label, so make it invisible instead.
+   Grid mode only: in list mode this label is the window title. */
+
+#xfwm-tabwin.tabwin-app-grid button label {
+    opacity: 0; }
+
+/* Window title shown under the icon grid */
+
+#xfwm-tabwin > box > label {
+    font: initial;
+    margin: 3px 5px 0 5px;
+    padding: 3px 6px;
+    border: 1px solid @dark_shadow;
+    border-bottom-color: @light_shadow;
+    border-right-color: @light_shadow;
+    box-shadow: 1px 1px @borders inset, -1px -1px @bg_color inset; }
+
+
 
 /* -------------------------------------- */
 /* --------------PLUGINS!!!-------------- */
