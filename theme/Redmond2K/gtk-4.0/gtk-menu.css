@@ -10,6 +10,22 @@ menubar item label {
     margin: .4em;
 }
 
+/* GTK4 menubar items are "item" nodes, so the GTK3 menuitem rules don't
+   apply. Hover sets :hover and :selected; an open menu additionally moves
+   focus into the item's popover (:focus-within, but not :focus). */
+
+/* Hovered: raised */
+menubar > item:hover, menubar > item:selected {
+    color: @menubar_fg_color;
+    background-color: @button_bg_color;
+    box-shadow: inset 1px 1px @light_shadow, inset -1px -1px @dark_shadow;
+}
+
+/* Menu open: sunken */
+menubar > item:selected:focus-within:not(:focus) {
+    box-shadow: inset 1px 1px @dark_shadow, inset -1px -1px @light_shadow;
+}
+
 /***********
  * Popover *
  ***********/
