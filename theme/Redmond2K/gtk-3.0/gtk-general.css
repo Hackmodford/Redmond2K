@@ -155,6 +155,12 @@ treeview {
     color: @fg_color;
     -treeview-vertical-separator: 0; }
 
+/* Keep the keyboard focus rectangle inside the row. With the global outline-offset: 0
+   the outline is drawn 1px outside the row, onto the row above, which GtkTreeView doesn't
+   repaint on cursor-down, leaving stale dotted lines behind. */
+treeview.view {
+    outline-offset: -1px; }
+
 treeview.view:selected, treeview.view:selected:focus {
     color: @theme_selected_fg_color;
 }
