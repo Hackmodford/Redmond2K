@@ -42,4 +42,4 @@ else
 fi
 
 echo "Installed ${THEME_NAME} to ${DEST_DIR}"
-echo "Set 'webkit-theme=${THEME_NAME}' in /etc/lightdm/lightdm-webkit-greeter.conf (or the webkit2 equivalent) to use it."
+echo "Set 'webkit_theme = ${THEME_NAME}' under [greeter] in /etc/lightdm/lightdm-webkit2-greeter.conf to use it."
