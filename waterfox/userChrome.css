@@ -56,14 +56,14 @@ toolbar toolbarbutton:not([disabled]):hover > :is(.toolbarbutton-icon, .toolbarb
     border-radius: 0 !important;
     outline: none !important;
     box-shadow: none !important;
-    background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#000000, #000000), linear-gradient(#000000, #000000), linear-gradient(#808080, #808080), linear-gradient(#808080, #808080) !important;
+    background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#7f7f77, #7f7f77), linear-gradient(#7f7f77, #7f7f77) !important;
     background-position: left top, left top, left bottom, right top, left 1px bottom 1px, right 1px top 1px !important;
     background-size: calc(100% - 1px) 1px, 1px calc(100% - 1px), 100% 1px, 1px 100%, calc(100% - 2px) 1px, 1px calc(100% - 2px) !important;
     background-repeat: no-repeat !important;
 }
 
 toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .toolbarbutton-text, .toolbarbutton-badge-stack) {
-    background-image: linear-gradient(#000000, #000000), linear-gradient(#000000, #000000), linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#f1f1f0, #f1f1f0), linear-gradient(#f1f1f0, #f1f1f0) !important;
+    background-image: linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#d4d0c8, #d4d0c8), linear-gradient(#d4d0c8, #d4d0c8) !important;
 }
 
 #PersonalToolbar toolbarbutton.bookmark-item:not(.subviewbutton):not([disabled]):hover {
@@ -71,14 +71,14 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     border-radius: 0 !important;
     outline: none !important;
     box-shadow: none !important;
-    background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#000000, #000000), linear-gradient(#000000, #000000), linear-gradient(#808080, #808080), linear-gradient(#808080, #808080) !important;
+    background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#7f7f77, #7f7f77), linear-gradient(#7f7f77, #7f7f77) !important;
     background-position: left top, left top, left bottom, right top, left 1px bottom 1px, right 1px top 1px !important;
     background-size: calc(100% - 1px) 1px, 1px calc(100% - 1px), 100% 1px, 1px 100%, calc(100% - 2px) 1px, 1px calc(100% - 2px) !important;
     background-repeat: no-repeat !important;
 }
 
 #PersonalToolbar toolbarbutton.bookmark-item:not(.subviewbutton):not([disabled]):hover:active {
-    background-image: linear-gradient(#000000, #000000), linear-gradient(#000000, #000000), linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#f1f1f0, #f1f1f0), linear-gradient(#f1f1f0, #f1f1f0) !important;
+    background-image: linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#d4d0c8, #d4d0c8), linear-gradient(#d4d0c8, #d4d0c8) !important;
 }
 
 #PersonalToolbar toolbarbutton.bookmark-item:not(.subviewbutton):not([disabled]):hover > :is(.toolbarbutton-icon, .toolbarbutton-text, .toolbarbutton-badge-stack) {
@@ -97,7 +97,7 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     border-radius: 0 !important;
     outline: none !important;
     box-shadow: none !important;
-    background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#000000, #000000), linear-gradient(#000000, #000000), linear-gradient(#808080, #808080), linear-gradient(#808080, #808080), var(--navigation-icon) !important;
+    background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#7f7f77, #7f7f77), linear-gradient(#7f7f77, #7f7f77), var(--navigation-icon) !important;
     background-position: left top, left top, left bottom, right top, left 1px bottom 1px, right 1px top 1px, center !important;
     background-size: calc(100% - 1px) 1px, 1px calc(100% - 1px), 100% 1px, 1px 100%, calc(100% - 2px) 1px, 1px calc(100% - 2px), 24px 24px !important;
     background-repeat: no-repeat !important;
@@ -108,7 +108,7 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
 #home-button:not([disabled]):hover:active > .toolbarbutton-icon,
 #reload-button:not([disabled]):hover:active > .toolbarbutton-icon,
 #stop-button:not([disabled]):hover:active > .toolbarbutton-icon {
-    background-image: linear-gradient(#000000, #000000), linear-gradient(#000000, #000000), linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#f1f1f0, #f1f1f0), linear-gradient(#f1f1f0, #f1f1f0), var(--navigation-icon) !important;
+    background-image: linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#d4d0c8, #d4d0c8), linear-gradient(#d4d0c8, #d4d0c8), var(--navigation-icon) !important;
 }
 
 /* --- Shared styles: enable relative positioning --- */
@@ -121,7 +121,7 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
 }
 
 /* --- 2px horizontal line ABOVE the Menu Bar --- */
-/* Top pixel: #a19e9a (darker), Bottom pixel: #f1f1f0 (lighter) --- */
+/* Top pixel: #7f7f77 (darker), Bottom pixel: #ffffff (lighter) --- */
 
 #navigator-toolbox::before {
     content: "" !important;
@@ -132,17 +132,17 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     height: 2px !important;
     background-image: linear-gradient(
         to bottom,
-        #a19e9a 0%,
-        #a19e9a 50%,
-        #f1f1f0 50%,
-        #f1f1f0 100%
+        #7f7f77 0%,
+        #7f7f77 50%,
+        #ffffff 50%,
+        #ffffff 100%
     ) !important;
     pointer-events: none !important;
     z-index: 9999 !important;
 }
 
 /* --- 2px horizontal line BELOW each toolbar --- */
-/* Top pixel: #a19e9a (darker), Bottom pixel: #f1f1f0 (lighter) --- */
+/* Top pixel: #7f7f77 (darker), Bottom pixel: #ffffff (lighter) --- */
 
 #toolbar-menubar::after,
 #nav-bar::after {
@@ -154,17 +154,17 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     height: 2px !important;
     background-image: linear-gradient(
         to bottom,
-        #a19e9a 0%,
-        #a19e9a 50%,
-        #f1f1f0 50%,
-        #f1f1f0 100%
+        #7f7f77 0%,
+        #7f7f77 50%,
+        #ffffff 50%,
+        #ffffff 100%
     ) !important;
     pointer-events: none !important;
     z-index: 9999 !important;
 }
 
 /* --- Vertical 2px line on the LEFT edge of each toolbar --- */
-/* Left pixel: #a19e9a (darker), Right pixel: #f1f1f0 (lighter) --- */
+/* Left pixel: #7f7f77 (darker), Right pixel: #ffffff (lighter) --- */
 
 #toolbar-menubar::before,
 #nav-bar::before,
@@ -178,10 +178,10 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     width: 2px !important;
     background-image: linear-gradient(
         to right,
-        #a19e9a 0%,
-        #a19e9a 50%,
-        #f1f1f0 50%,
-        #f1f1f0 100%
+        #7f7f77 0%,
+        #7f7f77 50%,
+        #ffffff 50%,
+        #ffffff 100%
     ) !important;
     pointer-events: none !important;
     z-index: 9999 !important;
@@ -198,17 +198,17 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     width: 2px !important;
     background-image: linear-gradient(
         to right,
-        #a19e9a 0%,
-        #a19e9a 50%,
-        #f1f1f0 50%,
-        #f1f1f0 100%
+        #7f7f77 0%,
+        #7f7f77 50%,
+        #ffffff 50%,
+        #ffffff 100%
     ) !important;
     pointer-events: none !important;
     z-index: 0 !important;
 }
 
 /* --- Vertical 2px line on the RIGHT edge of each toolbar --- */
-/* Left pixel: #a19e9a (darker), Right pixel: #f1f1f0 (lighter) --- */
+/* Left pixel: #7f7f77 (darker), Right pixel: #ffffff (lighter) --- */
 /* Uses border-left + box-shadow since ::after is used for horizontal lines --- */
 
 /* padding-top clears the 2px line #navigator-toolbox::before paints over the */
@@ -226,7 +226,7 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
 #PersonalToolbar,
 #TabsToolbar {
     border-right: 0 !important;
-    box-shadow: inset -1px 0 0 #f1f1f0, inset -2px 0 0 #a19e9a !important;
+    box-shadow: inset -1px 0 0 #ffffff, inset -2px 0 0 #7f7f77 !important;
 }
 
 #TabsToolbar {
@@ -242,11 +242,11 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     left: -2px !important;
     height: 4px !important;
     background-image: linear-gradient(
-        #a19e9a,
-        #a19e9a
+        #7f7f77,
+        #7f7f77
     ), linear-gradient(
-        #f1f1f0,
-        #f1f1f0
+        #ffffff,
+        #ffffff
     ), linear-gradient(
         #d4d0c8,
         #d4d0c8
@@ -261,14 +261,14 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
 #TabsToolbar::before {
     background-image: linear-gradient(
         to right,
-        #a19e9a 0 50%,
-        #f1f1f0 50% 100%
+        #7f7f77 0 50%,
+        #ffffff 50% 100%
     ), linear-gradient(
-        #a19e9a,
-        #a19e9a
+        #7f7f77,
+        #7f7f77
     ), linear-gradient(
-        #f1f1f0,
-        #f1f1f0
+        #ffffff,
+        #ffffff
     ), linear-gradient(
         #d4d0c8,
         #d4d0c8
@@ -298,16 +298,16 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     border-radius: 6px 6px 0 0 !important;
     background: linear-gradient(
         to right,
-        #808080 0 1px,
-        #000000 1px 2px
+        #7f7f77 0 1px,
+        #3f3f3f 1px 2px
     ) right top / 2px calc(100% - 0px) no-repeat border-box, linear-gradient(
-        #f1f1f0,
-        #f1f1f0
+        #ffffff,
+        #ffffff
     ) left top / 1.5px calc(100% - 0px) no-repeat border-box, linear-gradient(
         transparent,
         transparent
     ) left bottom / 100% 1px no-repeat border-box, #d4d0c8 padding-box !important;
-    border-top: 1.5px solid #f1f1f0 !important;
+    border-top: 1.5px solid #ffffff !important;
     border-left: 1.5px solid transparent !important;
     border-right: 2px solid transparent !important;
     border-bottom: 0px solid transparent !important;
@@ -325,18 +325,18 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     background-color: #d4d0c8 !important;
     background-image: linear-gradient(
         to right,
-        #808080 0 1px,
-        #000000 1px 2px
+        #7f7f77 0 1px,
+        #3f3f3f 1px 2px
     ), linear-gradient(
-        #f1f1f0,
-        #f1f1f0
+        #ffffff,
+        #ffffff
     ) !important;
     background-position: right top, left top !important;
     background-size: 2px calc(100% - 2px), 1.5px calc(100% - 2px) !important;
     background-repeat: no-repeat, no-repeat !important;
     background-origin: border-box, border-box !important;
     background-clip: border-box, border-box !important;
-    border-top: 1.5px solid #f1f1f0 !important;
+    border-top: 1.5px solid #ffffff !important;
     border-left: 1.5px solid transparent !important;
     border-right: 2px solid transparent !important;
     border-bottom: 0 !important;
@@ -351,9 +351,9 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     outline: none !important;
     background: linear-gradient(
         to right,
-        #808080 0 1px,
-        #000000 1px 2px
-    ) right top / 2px calc(100% - 2px) no-repeat border-box, #f1f1f0 left top / 1.5px calc(100% - 2px) no-repeat border-box, #d4d0c8 padding-box !important;
+        #7f7f77 0 1px,
+        #3f3f3f 1px 2px
+    ) right top / 2px calc(100% - 2px) no-repeat border-box, #ffffff left top / 1.5px calc(100% - 2px) no-repeat border-box, #d4d0c8 padding-box !important;
 }
 
 #tabbrowser-tabs .tabbrowser-tab[selected],
@@ -406,11 +406,11 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
 
 html|moz-urlbar#urlbar > html|div.urlbar-input-container {
     border-radius: 0 !important;
-    border-top: 1.5px solid #a19e9a !important;
-    border-left: 1.5px solid #a19e9a !important;
+    border-top: 1.5px solid #7f7f77 !important;
+    border-left: 1.5px solid #7f7f77 !important;
     border-right: 1.5px solid #ffffff !important;
     border-bottom: 1.5px solid #ffffff !important;
-    box-shadow: inset 1px 1px 0 #000000, inset -1px -1px 0 #d4d0c8 !important;
+    box-shadow: inset 1px 1px 0 #3f3f3f, inset -1px -1px 0 #d4d0c8 !important;
 }
 
 html|moz-urlbar#urlbar[focused] > html|div.urlbar-input-container,
@@ -433,11 +433,11 @@ html|moz-urlbar#urlbar:is([focused], [open], [breakout]) > html|div.urlbar-backg
     margin-top: -1px !important;
     padding: 1px !important;
     background-color: #d4d0c8 !important;
-    border-top: 1.5px solid #a19e9a !important;
-    border-left: 1.5px solid #a19e9a !important;
+    border-top: 1.5px solid #7f7f77 !important;
+    border-left: 1.5px solid #7f7f77 !important;
     border-right: 1.5px solid #ffffff !important;
     border-bottom: 1.5px solid #ffffff !important;
-    box-shadow: inset 1px 1px 0 #000000, inset -1px -1px 0 #d4d0c8 !important;
+    box-shadow: inset 1px 1px 0 #3f3f3f, inset -1px -1px 0 #d4d0c8 !important;
 }
 
 #urlbar,
@@ -566,10 +566,10 @@ menupopup menuseparator::before {
     min-height: 2px !important;
     background-image: linear-gradient(
         to bottom,
-        #a19e9a 0%,
-        #a19e9a 50%,
-        #f1f1f0 50%,
-        #f1f1f0 100%
+        #7f7f77 0%,
+        #7f7f77 50%,
+        #ffffff 50%,
+        #ffffff 100%
     ) !important;
 }
 
