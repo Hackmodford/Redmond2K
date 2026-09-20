@@ -211,9 +211,13 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
 /* Left pixel: #a19e9a (darker), Right pixel: #f1f1f0 (lighter) --- */
 /* Uses border-left + box-shadow since ::after is used for horizontal lines --- */
 
+/* padding-top clears the 2px line #navigator-toolbox::before paints over the */
+/* top of the toolbox, which would otherwise sit on the menu buttons' edges. */
+
 #toolbar-menubar {
     padding-left: 6px !important;
     padding-right: 6px !important;
+    padding-top: 4px !important;
     padding-bottom: 4px !important;
 }
 
@@ -458,4 +462,142 @@ panel {
 #appMenu-popup .panel-subview-body {
     background-color: #d4d0c8 !important;
     color: #000000 !important;
+}
+
+/* --- Menus: Windows 2000 frames, matching theme/Redmond2K/gtk-3.0/gtk-menu.css --- */
+/* Raised:  outer #d4d0c8 top/left, #3f3f3f bottom/right; inner #ffffff top/left, #7f7f77 bottom/right */
+/* Sunken:  the same two pairs swapped */
+
+/* Menu bar buttons: flat, raised on hover, pressed in while their menu is open. */
+
+#main-menubar > menu {
+    appearance: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 4px 6px !important;
+    background-color: transparent !important;
+    color: #000000 !important;
+}
+
+#main-menubar > menu[_moz-menuactive]:not([open]):not([disabled]) {
+    background-color: #d4d0c8 !important;
+    color: #000000 !important;
+    box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #7f7f77 !important;
+}
+
+#main-menubar > menu[open]:not([disabled]) {
+    background-color: #d4d0c8 !important;
+    color: #000000 !important;
+    box-shadow: inset 1px 1px 0 #7f7f77, inset -1px -1px 0 #ffffff !important;
+}
+
+#main-menubar > menu[disabled] {
+    color: #a9a6a0 !important;
+    text-shadow: 1px 1px 0 #ffffff !important;
+}
+
+/* Menu popups: raised frame, and only enough padding to clear it. */
+/* ::part(content) is not matchable from userChrome.css, so the frame is drawn */
+/* on the popup itself and its content part is made transparent to show it. */
+
+menupopup {
+    --panel-border-radius: 0 !important;
+    --panel-border-color: transparent !important;
+    --panel-background-color: transparent !important;
+    --panel-text-color: #000000 !important;
+    /* 1px transparent part border + this padding = the inset of the items. */
+    /* Inline gets 1px extra so the highlight stops clear of the inner bevel. */
+    --panel-padding: 1px 2px !important;
+    --panel-box-shadow: none !important;
+    --panel-box-shadow-margin: 0px !important;
+    --menuitem-border-radius: 0 !important;
+    --menuitem-margin: 0 !important;
+    background-color: #d4d0c8 !important;
+    color: #000000 !important;
+    box-shadow: inset 1px 1px 0 #d4d0c8, inset -1px -1px 0 #3f3f3f,
+                inset 2px 2px 0 #ffffff, inset -2px -2px 0 #7f7f77 !important;
+}
+
+/* Drop the menu bar's popups clear of the divider line under the menu bar. */
+
+#main-menubar > menu > menupopup {
+    margin-top: 2px !important;
+}
+
+/* Menu items: square, edge to edge inside the frame. */
+
+menupopup :is(menuitem, menu) {
+    appearance: none !important;
+    border-radius: 0 !important;
+    margin-inline: 0 !important;
+    color: #000000 !important;
+}
+
+menupopup :is(menuitem, menu)[_moz-menuactive]:not([disabled]) {
+    background-color: #002468 !important;
+    color: #ffffff !important;
+    text-shadow: none !important;
+}
+
+menupopup :is(menuitem, menu)[disabled] {
+    color: #a9a6a0 !important;
+    text-shadow: 1px 1px 0 #ffffff !important;
+}
+
+menupopup :is(menuitem, menu)[_moz-menuactive][disabled] {
+    background-color: transparent !important;
+}
+
+/* Menu separators: the same 2px groove as the lines between toolbars. */
+
+menupopup menuseparator {
+    appearance: none !important;
+    border: 0 !important;
+    margin: 0 !important;
+    padding-block: 3px !important;
+    padding-inline: 3px !important;
+}
+
+menupopup menuseparator::before {
+    border: 0 !important;
+    flex: 1 !important;
+    height: 2px !important;
+    min-height: 2px !important;
+    background-image: linear-gradient(
+        to bottom,
+        #a19e9a 0%,
+        #a19e9a 50%,
+        #f1f1f0 50%,
+        #f1f1f0 100%
+    ) !important;
+}
+
+/* Menu checkboxes: the 13px sunken field from the GTK theme's c_box assets. */
+/* Firefox draws these with -moz-default-appearance: checkbox on Linux, which */
+/* ignores the GTK theme, so the box and its checkmark are rebuilt here. */
+
+menupopup menuitem:is([type="checkbox"], [checked]):not([type="radio"]) > html|img.menu-icon {
+    appearance: none !important;
+    -moz-default-appearance: none !important;
+    visibility: inherit !important;
+    box-sizing: border-box !important;
+    width: 13px !important;
+    height: 13px !important;
+    min-width: 13px !important;
+    min-height: 13px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
+    box-shadow: inset 1px 1px 0 #7f7f77, inset -1px -1px 0 #ffffff,
+                inset 2px 2px 0 #3f3f3f, inset -2px -2px 0 #d4d0c8 !important;
+}
+
+menupopup menuitem:is([type="checkbox"], [checked]):not([type="radio"])[checked] > html|img.menu-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7' shape-rendering='crispEdges'%3E%3Cpath fill='%23000' d='M6 0h1v1H6zM5 1h2v1H5zM0 2h1v1H0zM4 2h3v1H4zM0 3h2v1H0zM3 3h3v1H3zM0 4h5v1H0zM1 5h3v1H1zM2 6h1v1H2z'/%3E%3C/svg%3E") !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: 7px 7px !important;
 }
