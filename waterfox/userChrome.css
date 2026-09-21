@@ -19,10 +19,6 @@
     --navigation-icon: url("icons/back.svg");
 }
 
-#back-button {
-    aspect-ratio: 1 / 1 !important;
-}
-
 #forward-button > .toolbarbutton-icon {
     --navigation-icon: url("icons/forward.svg");
 }
@@ -84,6 +80,40 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     background-color: transparent !important;
     box-shadow: none !important;
     outline: none !important;
+}
+
+/* --- Nav bar height --- */
+/* The tallest things in the nav bar set its height: toolbar buttons (a 16px
+   icon box plus --toolbarbutton-padding-inner on each side, 8px at normal
+   window widths) and the address field's container (4px above and below the
+   field). 5px padding makes 26px buttons, which still fit the 24px navigation
+   icons inside the 1px hover bevel. The field's container gets no padding:
+   the 24px field sits centred in the row the buttons set, and with the
+   container exactly as tall as the field, the opened field's centring
+   offset (see the breakout rules) comes out at zero.
+   Icon boxes are square by construction (16px + 2 * padding each way).
+   The bar is then fixed at 34px: 4px padding, 26px buttons, 4px padding,
+   with the 24px field centred 1px inside that -- all whole pixels. The
+   padding also keeps hovered buttons clear of the divider line above, which
+   hangs 1px into the bar. Waterfox's own top border on the bar is a 0.01px
+   tabs/nav-bar separator hairline in a non-theme colour; it goes. */
+
+#nav-bar {
+    --toolbarbutton-padding-inner: 5px !important;
+    box-sizing: border-box !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    border-top: 0 !important;
+    padding-block: 4px !important;
+}
+
+/* min-height comes from --urlbar-container-height, which Waterfox's script
+   measures from this container and writes back, so it keeps the old height
+   alive; releasing it lets the script measure and publish the new one. */
+
+#urlbar-container {
+    padding-block: 0 !important;
+    min-height: 0 !important;
 }
 
 /* --- Shared styles: enable relative positioning --- */
@@ -362,13 +392,31 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
         color: #000000 !important;
 }
 
-#urlbar,
-#searchbar {
+/* The urlbar is an HTML element (moz-urlbar), and this file's default
+   @namespace is XUL, so bare #urlbar / .urlbar-background selectors never
+   match it -- every urlbar selector here names the html| namespace. */
+
+html|moz-urlbar#urlbar,
+*|*#searchbar {
         background-color: #ffffff !important;
         color: #000000 !important;
 }
 
-#urlbar {
+/* Field height: 24px -- Win2K Internet Explorer's address box was 22px (2px
+   sunken frame, 1px gap, 16px icon, 1px gap, 2px frame); 24px gives each
+   icon a pixel more room and suits the 9pt UI font.
+   Waterfox sizes the icon boxes inside the field from
+   --urlbar-basic-component-size (min-height minus the container padding) and
+   --urlbar-icon-padding, both declared at the root. A custom property
+   resolves its var()s where it is declared, so those are frozen at the root's
+   min-height and would keep the field at its old height; they are restated
+   here. The component size subtracts 6px: the frame's 2px of shadow rings sit
+   over 1px of padding on each side (see .urlbar-input-container below). */
+
+html|moz-urlbar#urlbar {
+    --urlbar-min-height: 24px !important;
+    --urlbar-basic-component-size: calc(var(--urlbar-min-height) - 6px) !important;
+    --urlbar-icon-padding: calc((var(--urlbar-basic-component-size) - 16px) / 2) !important;
     --urlbar-background-background-color: #ffffff !important;
     --urlbar-background-background-color-focused: #ffffff !important;
     --urlbar-background-border-radius: 0 !important;
@@ -382,11 +430,37 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
 /* they cover and the text keeps clear of them.                              */
 
 html|moz-urlbar#urlbar > html|div.urlbar-input-container {
+    /* The frame is drawn on this container, which otherwise sizes to its
+       contents -- Tahoma's line plus padding can come to a fractional
+       height, leaving the frame on a half pixel inside the urlbar. */
+    min-height: var(--urlbar-min-height) !important;
     border-radius: 0 !important;
     border: 0 !important;
     padding: calc(var(--urlbar-input-container-padding) + 2px) !important;
     box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #7f7f7f,
                 inset -2px -2px 0 #d4d0c8, inset 2px 2px 0 #3f3f3f !important;
+}
+
+/* Clicking into the field opens Waterfox's "extended breakout": the urlbar
+   floats, its frame's container takes the toolbar's full height with extra
+   padding, and it widens by its side margins. The field keeps its size
+   instead; the suggestions list still opens below it. Waterfox's script pins
+   the floating field's top to the top of #urlbar-container, expecting it to
+   fill that height, so the margin centres it again using the two heights the
+   script keeps up to date. */
+
+html|moz-urlbar#urlbar[breakout][breakout-extend] {
+    margin-inline: 0 !important;
+    margin-block-start: calc((var(--urlbar-container-height) - var(--urlbar-height)) / 2) !important;
+    width: var(--urlbar-width) !important;
+}
+
+/* Sized the same way as when closed (min-height on the container rule
+   below), not from --urlbar-height: the script measures that and can land on
+   a half pixel. */
+
+html|moz-urlbar#urlbar[breakout][breakout-extend] > html|div.urlbar-input-container {
+    height: auto !important;
 }
 
 html|moz-urlbar#urlbar[focused] > html|div.urlbar-input-container,
@@ -443,8 +517,8 @@ browser[type="content"] {
     box-shadow: none !important;
 }
 
-#urlbar,
-.urlbar-background {
+html|moz-urlbar#urlbar,
+html|div.urlbar-background {
     border-radius: 0 !important;
 }
 

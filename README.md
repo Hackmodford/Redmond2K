@@ -85,8 +85,24 @@ theme and Settings → Window Manager → Style for the borders. Via `xfconf`:
 ```
 xfconf-query -c xsettings    -p /Net/ThemeName    -s Redmond2K
 xfconf-query -c xfwm4        -p /general/theme    -s Redmond2K
-xfconf-query -c xsettings    -p /Gtk/FontName     -s "Tahoma 9"
+xfconf-query -c xsettings    -p /Gtk/FontName     -s "Tahoma 8.25"
+xfconf-query -c xfwm4        -p /general/title_font -s "Tahoma Bold 8.25"
 ```
+
+Windows 2000 used Tahoma 8pt at 96 DPI, which Windows rounds to 11px. At 96
+DPI Pango renders 8pt as 10.67px, so 8.25pt is used to land on exactly 11px.
+
+With display scaling (Settings → Appearance → Settings → Window Scaling),
+check that GTK's unscaled DPI is 96. It is stored in 1/1024ths, so the value
+should be 98304:
+
+```
+xfconf-query -c xsettings    -p /Gdk/UnscaledDPI  -s 98304
+```
+
+A wrong value (`96000`, i.e. 93.75 DPI, has been seen) shrinks every GTK
+app's text and makes Waterfox render at a fractional scale such as 1.94,
+which puts the theme's 1px bevels between device pixels.
 
 A few settings that matter for the illusion, all under Settings → Window
 Manager → Advanced or `xfwm4` xfconf:
@@ -228,6 +244,10 @@ Custom stylesheets are off by default. In `about:config`, set:
 ```
 toolkit.legacyUserProfileCustomizations.stylesheets = true
 ```
+
+The bevels are drawn in whole pixels, so the browser needs a whole-number
+scale. Waterfox takes it from the desktop; if it renders slightly small or
+lines look blended, check `Gdk/UnscaledDPI` (see the GTK theme section).
 
 Restart the browser.
 
