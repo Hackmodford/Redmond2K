@@ -213,14 +213,14 @@ Full build steps, dependencies and credits are in
 ## Waterfox
 
 `waterfox/userChrome.css` restyles the browser chrome: bitmap navigation icons,
-Win2K bevels around the toolbars, flat square tabs, and a recessed content
-frame. It works in Firefox too.
+Win2K bevels around the toolbars, flat square tabs, a recessed content frame,
+and the status bar. It works in Firefox too.
 
 Find your profile directory (`about:profiles` → Root Directory), then:
 
 ```
 mkdir -p <profile>/chrome
-cp -r waterfox/userChrome.css waterfox/icons <profile>/chrome/
+cp -r waterfox/userChrome.css waterfox/icons waterfox/assets <profile>/chrome/
 ```
 
 Custom stylesheets are off by default. In `about:config`, set:

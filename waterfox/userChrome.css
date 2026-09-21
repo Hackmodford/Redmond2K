@@ -51,64 +51,39 @@
     display: none !important;
 }
 
-toolbar toolbarbutton:not([disabled]):hover > :is(.toolbarbutton-icon, .toolbarbutton-text, .toolbarbutton-badge-stack) {
-    background-color: transparent !important;
-    border-radius: 0 !important;
-    outline: none !important;
-    box-shadow: none !important;
-    background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#7f7f77, #7f7f77), linear-gradient(#7f7f77, #7f7f77) !important;
-    background-position: left top, left top, left bottom, right top, left 1px bottom 1px, right 1px top 1px !important;
-    background-size: calc(100% - 1px) 1px, 1px calc(100% - 1px), 100% 1px, 1px 100%, calc(100% - 2px) 1px, 1px calc(100% - 2px) !important;
-    background-repeat: no-repeat !important;
-}
+/* Bevels in this file are inset box-shadows listed bottom/right first. Where
+   inset shadows overlap at a corner the first-listed one wins, so the
+   bottom/right colour claims the top-right and bottom-left corner pixels --
+   the way Windows' DrawEdge paints them, and the way the reference images in
+   assets/ are drawn. (Those were tried as border-images, but Waterfox's GPU
+   renderer samples 1-2px slices inexactly and leaked the corner colour along
+   the edges as runs or dots.)
 
-toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .toolbarbutton-text, .toolbarbutton-badge-stack) {
-    background-image: linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#d4d0c8, #d4d0c8), linear-gradient(#d4d0c8, #d4d0c8) !important;
-}
+   Button bevels: 1px raised on hover, sunken while held. Inset shadows paint
+   over the padding and leave background-image alone, so buttons never change
+   size and the navigation icons, which are backgrounds, need no copies of
+   these rules. */
 
+toolbar toolbarbutton:not([disabled]):hover > :is(.toolbarbutton-icon, .toolbarbutton-text, .toolbarbutton-badge-stack),
 #PersonalToolbar toolbarbutton.bookmark-item:not(.subviewbutton):not([disabled]):hover {
     background-color: transparent !important;
     border-radius: 0 !important;
     outline: none !important;
-    box-shadow: none !important;
-    background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#7f7f77, #7f7f77), linear-gradient(#7f7f77, #7f7f77) !important;
-    background-position: left top, left top, left bottom, right top, left 1px bottom 1px, right 1px top 1px !important;
-    background-size: calc(100% - 1px) 1px, 1px calc(100% - 1px), 100% 1px, 1px 100%, calc(100% - 2px) 1px, 1px calc(100% - 2px) !important;
-    background-repeat: no-repeat !important;
+    box-shadow: inset -1px -1px 0 #7f7f7f, inset 1px 1px 0 #ffffff !important;
 }
 
+toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .toolbarbutton-text, .toolbarbutton-badge-stack),
 #PersonalToolbar toolbarbutton.bookmark-item:not(.subviewbutton):not([disabled]):hover:active {
-    background-image: linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#d4d0c8, #d4d0c8), linear-gradient(#d4d0c8, #d4d0c8) !important;
+    box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #7f7f7f !important;
 }
+
+/* Bookmark items carry the bevel on the whole button, so their children must
+   not also pick up the per-icon bevel from the generic toolbar rule above. */
 
 #PersonalToolbar toolbarbutton.bookmark-item:not(.subviewbutton):not([disabled]):hover > :is(.toolbarbutton-icon, .toolbarbutton-text, .toolbarbutton-badge-stack) {
     background-color: transparent !important;
-    background-image: none !important;
     box-shadow: none !important;
     outline: none !important;
-}
-
-#back-button:not([disabled]):hover > .toolbarbutton-icon,
-#forward-button:not([disabled]):hover > .toolbarbutton-icon,
-#home-button:not([disabled]):hover > .toolbarbutton-icon,
-#reload-button:not([disabled]):hover > .toolbarbutton-icon,
-#stop-button:not([disabled]):hover > .toolbarbutton-icon {
-    background-color: transparent !important;
-    border-radius: 0 !important;
-    outline: none !important;
-    box-shadow: none !important;
-    background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#7f7f77, #7f7f77), linear-gradient(#7f7f77, #7f7f77), var(--navigation-icon) !important;
-    background-position: left top, left top, left bottom, right top, left 1px bottom 1px, right 1px top 1px, center !important;
-    background-size: calc(100% - 1px) 1px, 1px calc(100% - 1px), 100% 1px, 1px 100%, calc(100% - 2px) 1px, 1px calc(100% - 2px), 24px 24px !important;
-    background-repeat: no-repeat !important;
-}
-
-#back-button:not([disabled]):hover:active > .toolbarbutton-icon,
-#forward-button:not([disabled]):hover:active > .toolbarbutton-icon,
-#home-button:not([disabled]):hover:active > .toolbarbutton-icon,
-#reload-button:not([disabled]):hover:active > .toolbarbutton-icon,
-#stop-button:not([disabled]):hover:active > .toolbarbutton-icon {
-    background-image: linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#3f3f3f, #3f3f3f), linear-gradient(#ffffff, #ffffff), linear-gradient(#ffffff, #ffffff), linear-gradient(#d4d0c8, #d4d0c8), linear-gradient(#d4d0c8, #d4d0c8), var(--navigation-icon) !important;
 }
 
 /* --- Shared styles: enable relative positioning --- */
@@ -120,8 +95,11 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     position: relative !important;
 }
 
+/* --- Etched lines around and between the toolbars --- */
+/* Each is a 2px hard-stop gradient, dark then light, top to bottom or left
+   to right, matching assets/etch-9p.png. */
+
 /* --- 2px horizontal line ABOVE the Menu Bar --- */
-/* Top pixel: #7f7f77 (darker), Bottom pixel: #ffffff (lighter) --- */
 
 #navigator-toolbox::before {
     content: "" !important;
@@ -130,19 +108,12 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     left: 0 !important;
     right: 1px !important;
     height: 2px !important;
-    background-image: linear-gradient(
-        to bottom,
-        #7f7f77 0%,
-        #7f7f77 50%,
-        #ffffff 50%,
-        #ffffff 100%
-    ) !important;
+    background-image: linear-gradient(to bottom, #7f7f7f 0 50%, #ffffff 50% 100%) !important;
     pointer-events: none !important;
     z-index: 9999 !important;
 }
 
 /* --- 2px horizontal line BELOW each toolbar --- */
-/* Top pixel: #7f7f77 (darker), Bottom pixel: #ffffff (lighter) --- */
 
 #toolbar-menubar::after,
 #nav-bar::after {
@@ -152,19 +123,12 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     left: 1px !important;
     right: 1px !important;
     height: 2px !important;
-    background-image: linear-gradient(
-        to bottom,
-        #7f7f77 0%,
-        #7f7f77 50%,
-        #ffffff 50%,
-        #ffffff 100%
-    ) !important;
+    background-image: linear-gradient(to bottom, #7f7f7f 0 50%, #ffffff 50% 100%) !important;
     pointer-events: none !important;
     z-index: 9999 !important;
 }
 
 /* --- Vertical 2px line on the LEFT edge of each toolbar --- */
-/* Left pixel: #7f7f77 (darker), Right pixel: #ffffff (lighter) --- */
 
 #toolbar-menubar::before,
 #nav-bar::before,
@@ -176,13 +140,7 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     bottom: 0 !important;
     left: 0 !important;
     width: 2px !important;
-    background-image: linear-gradient(
-        to right,
-        #7f7f77 0%,
-        #7f7f77 50%,
-        #ffffff 50%,
-        #ffffff 100%
-    ) !important;
+    background-image: linear-gradient(to right, #7f7f7f 0 50%, #ffffff 50% 100%) !important;
     pointer-events: none !important;
     z-index: 9999 !important;
 }
@@ -196,29 +154,24 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     bottom: 0 !important;
     left: 0 !important;
     width: 2px !important;
-    background-image: linear-gradient(
-        to right,
-        #7f7f77 0%,
-        #7f7f77 50%,
-        #ffffff 50%,
-        #ffffff 100%
-    ) !important;
+    background-image: linear-gradient(to right, #7f7f7f 0 50%, #ffffff 50% 100%) !important;
     pointer-events: none !important;
     z-index: 0 !important;
 }
 
 /* --- Vertical 2px line on the RIGHT edge of each toolbar --- */
-/* Left pixel: #7f7f77 (darker), Right pixel: #ffffff (lighter) --- */
-/* Uses border-left + box-shadow since ::after is used for horizontal lines --- */
+/* Drawn on the toolbar itself, since ::before and ::after are taken. */
 
-/* padding-top clears the 2px line #navigator-toolbox::before paints over the */
-/* top of the toolbox, which would otherwise sit on the menu buttons' edges. */
+/* The vertical padding leaves exactly 1px of face between the menu buttons and */
+/* the dividers. padding-top clears the 2px line #navigator-toolbox::before     */
+/* paints over the top of the toolbox; padding-bottom clears the 1px of the     */
+/* #toolbar-menubar::after line that sits inside the bar.                      */
 
 #toolbar-menubar {
     padding-left: 6px !important;
     padding-right: 6px !important;
-    padding-top: 4px !important;
-    padding-bottom: 4px !important;
+    padding-top: 3px !important;
+    padding-bottom: 2px !important;
 }
 
 #toolbar-menubar,
@@ -226,7 +179,7 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
 #PersonalToolbar,
 #TabsToolbar {
     border-right: 0 !important;
-    box-shadow: inset -1px 0 0 #ffffff, inset -2px 0 0 #7f7f77 !important;
+    box-shadow: inset -1px 0 0 #ffffff, inset -2px 0 0 #7f7f7f !important;
 }
 
 #TabsToolbar {
@@ -257,6 +210,10 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     pointer-events: none !important;
     z-index: 1 !important;
 }
+
+/* The tab strip's left edge and the groove under it are corner joins -- the
+   side groove turns into the bottom one, with face-coloured masking rows --
+   which one side of a 9-patch cannot draw. They stay as gradients. */
 
 #TabsToolbar::before {
     background-image: linear-gradient(
@@ -404,13 +361,16 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     --urlbar-background-box-shadow-breakout-compact: none !important;
 }
 
+/* Sunken field frame, the same two rings as the content frame. The shadows */
+/* paint over the padding, so the container's own padding grows by the 2px  */
+/* they cover and the text keeps clear of them.                              */
+
 html|moz-urlbar#urlbar > html|div.urlbar-input-container {
     border-radius: 0 !important;
-    border-top: 1.5px solid #7f7f77 !important;
-    border-left: 1.5px solid #7f7f77 !important;
-    border-right: 1.5px solid #ffffff !important;
-    border-bottom: 1.5px solid #ffffff !important;
-    box-shadow: inset 1px 1px 0 #3f3f3f, inset -1px -1px 0 #d4d0c8 !important;
+    border: 0 !important;
+    padding: calc(var(--urlbar-input-container-padding) + 2px) !important;
+    box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #7f7f7f,
+                inset -2px -2px 0 #d4d0c8, inset 2px 2px 0 #3f3f3f !important;
 }
 
 html|moz-urlbar#urlbar[focused] > html|div.urlbar-input-container,
@@ -428,16 +388,43 @@ html|moz-urlbar#urlbar:is([focused], [open], [breakout]) > html|div.urlbar-backg
 
 /* --- Browser content: recessed Windows 2000 frame --- */
 
+/* content-area.css gives the toolbox an unconditional 0.01px bottom border in
+   --chrome-content-separator-color, which paints a hairline of a non-theme
+   colour directly above the frame. Nothing gates it in this configuration. */
+
+#navigator-toolbox {
+    border-bottom: 0 !important;
+}
+
+/* Sunken frame around the page: #7f7f7f then #3f3f3f on the top/left, #ffffff
+   then #d4d0c8 on the bottom/right, as in assets/content-border-9p-2x.png.
+   The padding holds the 2px the rings cover. */
+
 #tabbrowser-tabbox {
     box-sizing: border-box !important;
     margin-top: -1px !important;
-    padding: 1px !important;
+    padding: 2px !important;
     background-color: #d4d0c8 !important;
-    border-top: 1.5px solid #7f7f77 !important;
-    border-left: 1.5px solid #7f7f77 !important;
-    border-right: 1.5px solid #ffffff !important;
-    border-bottom: 1.5px solid #ffffff !important;
-    box-shadow: inset 1px 1px 0 #3f3f3f, inset -1px -1px 0 #d4d0c8 !important;
+    border: 0 !important;
+    box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #7f7f7f,
+                inset -2px -2px 0 #d4d0c8, inset 2px 2px 0 #3f3f3f !important;
+}
+
+/* Something inside the frame paints a 1px rim in --chrome-content-separator-color
+   (ThreeDShadow, so it picks up the GTK theme) right where the page starts, plus a
+   faint shadow trailing off it. Measured on all four edges against about:blank, so
+   it is chrome, not page content. sidebar.revamp is off, which rules out the
+   .browserContainer outline in content-area.css, and nothing else in the shipped
+   CSS obviously matches -- hence clearing the whole stack rather than one rule. */
+
+#tabbrowser-tabpanels,
+.browserSidebarContainer,
+.browserContainer,
+.browserStack,
+browser[type="content"] {
+    border: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 #urlbar,
@@ -457,18 +444,87 @@ panel {
         --panel-color: #000000 !important;
 }
 
-#appMenu-popup,
-#appMenu-popup panelmultiview,
+/* --- App menu (the hamburger button's panel): a Win2K menu --- */
+/* It is a panel, not a menupopup, so the menu rules below do not reach it.
+   The frame works the same way: the visible box is the panel's content part,
+   painted from --panel-* variables, so those go transparent and the window
+   bevel is drawn on the panel itself -- same shadows as menupopup. */
+
+#appMenu-popup {
+    --panel-border-radius: 0 !important;
+    --panel-border-color: transparent !important;
+    --panel-background-color: transparent !important;
+    --panel-text-color: #000000 !important;
+    --panel-box-shadow: none !important;
+    --panel-box-shadow-margin: 0px !important;
+    --panel-menuitem-margin: 0 !important;
+    --panel-menuitem-border-radius: 0 !important;
+    background-color: #d4d0c8 !important;
+    color: #000000 !important;
+    box-shadow: inset -1px -1px 0 #3f3f3f, inset 1px 1px 0 #d4d0c8,
+                inset -2px -2px 0 #7f7f7f, inset 2px 2px 0 #ffffff !important;
+}
+
+/* The panel has panel-no-padding, so without this the views would cover the
+   inner ring. With the part's 1px transparent border this puts items 2px in
+   from the top and 3px from the sides, as in the menus, so the highlight
+   stops clear of the bevel. */
+
+#appMenu-multiView {
+    margin: 1px 2px !important;
+}
+
+#appMenu-popup panelview,
 #appMenu-popup .panel-subview-body {
     background-color: #d4d0c8 !important;
     color: #000000 !important;
+}
+
+#appMenu-popup :is(.subviewbutton, .panel-banner-item) {
+    border-radius: 0 !important;
+    outline: none !important;
+    color: #000000 !important;
+}
+
+#appMenu-popup .subviewbutton:not([disabled]):is(:hover, :focus-visible, [open]) {
+    background-color: #002468 !important;
+    color: #ffffff !important;
+}
+
+/* Shortcut hints are an ::after in a dimmed colour; follow the item's text. */
+
+#appMenu-popup .subviewbutton:not([disabled]):is(:hover, :focus-visible, [open])::after {
+    color: inherit !important;
+}
+
+#appMenu-popup .subviewbutton[disabled] {
+    color: #a9a6a0 !important;
+    text-shadow: 1px 1px 0 #ffffff !important;
+}
+
+/* Separators: the same etched groove as the menus, replacing both the plain */
+/* line and the gradient "zap" border-image under the account row.           */
+
+#appMenu-popup toolbarseparator {
+    margin: 0 !important;
+    padding: 3px !important;
+}
+
+#appMenu-popup toolbarseparator::before {
+    border: 0 !important;
+    border-image: none !important;
+    flex: 1 !important;
+    height: 2px !important;
+    min-height: 2px !important;
+    background-image: linear-gradient(to bottom, #7f7f7f 0 50%, #ffffff 50% 100%) !important;
 }
 
 /* --- Menus: Windows 2000 frames, matching theme/Redmond2K/gtk-3.0/gtk-menu.css --- */
 /* Raised:  outer #d4d0c8 top/left, #3f3f3f bottom/right; inner #ffffff top/left, #7f7f77 bottom/right */
 /* Sunken:  the same two pairs swapped */
 
-/* Menu bar buttons: flat, raised on hover, pressed in while their menu is open. */
+/* Menu bar buttons: flat, raised on hover, pressed in while their menu is open.
+   Same 1px bevels as the toolbar buttons. */
 
 #main-menubar > menu {
     appearance: none !important;
@@ -483,13 +539,13 @@ panel {
 #main-menubar > menu[_moz-menuactive]:not([open]):not([disabled]) {
     background-color: #d4d0c8 !important;
     color: #000000 !important;
-    box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #7f7f77 !important;
+    box-shadow: inset -1px -1px 0 #7f7f7f, inset 1px 1px 0 #ffffff !important;
 }
 
 #main-menubar > menu[open]:not([disabled]) {
     background-color: #d4d0c8 !important;
     color: #000000 !important;
-    box-shadow: inset 1px 1px 0 #7f7f77, inset -1px -1px 0 #ffffff !important;
+    box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #7f7f7f !important;
 }
 
 #main-menubar > menu[disabled] {
@@ -499,7 +555,9 @@ panel {
 
 /* Menu popups: raised frame, and only enough padding to clear it. */
 /* ::part(content) is not matchable from userChrome.css, so the frame is drawn */
-/* on the popup itself and its content part is made transparent to show it. */
+/* on the popup itself and its content part is made transparent to show it.   */
+/* The frame follows assets/window-border-9p-2x.png: #d4d0c8 then #ffffff on */
+/* the top/left, #3f3f3f then #7f7f7f on the bottom/right.                    */
 
 menupopup {
     --panel-border-radius: 0 !important;
@@ -515,14 +573,15 @@ menupopup {
     --menuitem-margin: 0 !important;
     background-color: #d4d0c8 !important;
     color: #000000 !important;
-    box-shadow: inset 1px 1px 0 #d4d0c8, inset -1px -1px 0 #3f3f3f,
-                inset 2px 2px 0 #ffffff, inset -2px -2px 0 #7f7f77 !important;
+    box-shadow: inset -1px -1px 0 #3f3f3f, inset 1px 1px 0 #d4d0c8,
+                inset -2px -2px 0 #7f7f7f, inset 2px 2px 0 #ffffff !important;
 }
 
-/* Drop the menu bar's popups clear of the divider line under the menu bar. */
+/* Drop the menu bar's popups clear of the divider line under the menu bar: */
+/* 2px of #toolbar-menubar padding, then the 2px line straddling its edge.   */
 
 #main-menubar > menu > menupopup {
-    margin-top: 2px !important;
+    margin-top: 3px !important;
 }
 
 /* Menu items: square, edge to edge inside the frame. */
@@ -564,13 +623,7 @@ menupopup menuseparator::before {
     flex: 1 !important;
     height: 2px !important;
     min-height: 2px !important;
-    background-image: linear-gradient(
-        to bottom,
-        #7f7f77 0%,
-        #7f7f77 50%,
-        #ffffff 50%,
-        #ffffff 100%
-    ) !important;
+    background-image: linear-gradient(to bottom, #7f7f7f 0 50%, #ffffff 50% 100%) !important;
 }
 
 /* Menu checkboxes: the 13px sunken field from the GTK theme's c_box assets. */
@@ -591,8 +644,8 @@ menupopup menuitem:is([type="checkbox"], [checked]):not([type="radio"]) > html|i
     border-radius: 0 !important;
     background-color: #ffffff !important;
     background-image: none !important;
-    box-shadow: inset 1px 1px 0 #7f7f77, inset -1px -1px 0 #ffffff,
-                inset 2px 2px 0 #3f3f3f, inset -2px -2px 0 #d4d0c8 !important;
+    box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #7f7f7f,
+                inset -2px -2px 0 #d4d0c8, inset 2px 2px 0 #3f3f3f !important;
 }
 
 menupopup menuitem:is([type="checkbox"], [checked]):not([type="radio"])[checked] > html|img.menu-icon {
@@ -600,4 +653,100 @@ menupopup menuitem:is([type="checkbox"], [checked]):not([type="radio"])[checked]
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-size: 7px 7px !important;
+}
+
+/* --- Status bar: Windows 2000 status bar with a sunken text pane --- */
+/* Waterfox's own chrome://browser/content/waterfox/statusbar/statusbar.css puts */
+/* a 1px separator above the bar and centres the text; Win2K has neither. The   */
+/* bar itself is plain face colour, and the text sits in a 1px sunken pane.     */
+/* Enable it in Settings > Appearance > Status Bar (browser.statusbar.enabled). */
+
+#browser-bottombox {
+    background-color: #d4d0c8 !important;
+    color: #000000 !important;
+}
+
+/* Height comes from the tallest widget in the bar, so the button padding is  */
+/* what sets it: toolbarbuttons.css sizes their icon box as 16px + 2 * the    */
+/* inner padding, and the stock 8px makes that 32px. The bar adds its own     */
+/* padding on top of that. Tune --toolbarbutton-padding-inner to taste.       */
+
+#status-bar {
+    --toolbarbutton-padding-inner: 4px !important;
+    --toolbarbutton-padding-outer: 4px !important;
+    appearance: none !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: repeat !important;
+    box-sizing: border-box !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    /* Extra padding above sets the pane off the content frame's bottom edge. */
+    padding: 3px 1px 1px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background-color: #d4d0c8 !important;
+    color: #000000 !important;
+    overflow: visible !important;
+}
+
+/* The status text pane: 1px sunken, left aligned, filling the bar. */
+
+#status-bar #status-text {
+    flex: 1 1 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    padding: 0 3px !important;
+    background-color: #d4d0c8 !important;
+    box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #7f7f7f !important;
+}
+
+/* StatusBar.sys.mjs moves #statuspanel-label in and out of the bar, so the */
+/* label has to lose its own frame in both places. */
+
+#status-bar #status-text > #statuspanel-label {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background-color: transparent !important;
+    color: #000000 !important;
+    text-shadow: none !important;
+}
+
+/* Widgets placed in the bar (zoom controls, screenshot, fullscreen) keep the */
+/* square toolbar buttons; only the radius and spacing need flattening here. */
+
+#status-bar toolbarbutton {
+    appearance: none !important;
+    border-radius: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    color: #000000 !important;
+}
+
+#status-bar toolbarbutton > .toolbarbutton-icon,
+#status-bar toolbarbutton > .toolbarbutton-text,
+#status-bar toolbarbutton > .toolbarbutton-badge-stack {
+    border-radius: 0 !important;
+    min-height: 0 !important;
+}
+
+/* The floating link preview, used when the status bar is off or "Show links" */
+/* is unchecked: the same sunken pane, square and on the face colour. */
+
+#statuspanel-label {
+    margin: 0 !important;
+    padding: 1px 3px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background-color: #d4d0c8 !important;
+    color: #000000 !important;
+    text-shadow: none !important;
+}
+
+#statuspanel:not([hidden]) > #statuspanel-label {
+    box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #7f7f7f !important;
 }
