@@ -47,6 +47,72 @@
     display: none !important;
 }
 
+/* --- Small toolbar icons from the SE98 icon theme --- */
+/* 16px PNGs, the size these buttons draw at, so they stay pixel-exact.     */
+/* Firefox's are context-filled SVGs; a PNG ignores the fill and keeps its  */
+/* own colours. #tabs-newtab-button is the copy inside the tab strip that   */
+/* replaces #new-tab-button while the tabs don't overflow.                  */
+
+:is(#new-tab-button, #tabs-newtab-button) {
+    list-style-image: url("icons/tab-new.png") !important;
+}
+
+#zoom-in-button {
+    list-style-image: url("icons/zoom-in.png") !important;
+}
+
+#zoom-out-button {
+    list-style-image: url("icons/zoom-out.png") !important;
+}
+
+/* Set on the icon itself, not the button: some sheet Waterfox loads after */
+/* this one beats a button-level rule, and a value set on the icon always  */
+/* wins over one it would inherit from the button.                         */
+
+#screenshot-button > .toolbarbutton-icon {
+    list-style-image: url("icons/screenshot.png") !important;
+}
+
+#fullscreen-button {
+    list-style-image: url("icons/fullscreen.png") !important;
+}
+
+:root[inFullscreen] #fullscreen-button {
+    list-style-image: url("icons/fullscreen-exit.png") !important;
+}
+
+/* Bookmark folders, on the toolbar and in its menus. Smart, tag and       */
+/* history folders keep their own icons. As with the screenshot button,    */
+/* the image goes on the icon element so no button-level rule can win.     */
+/* Menu icons are html:img (hence html|), drawn from `content`; toolbar     */
+/* icons are XUL and draw from list-style-image.                           */
+
+.bookmark-item[container]:not([query], [tagContainer], [dayContainer]) > .toolbarbutton-icon {
+    list-style-image: url("icons/folder.png") !important;
+}
+
+.bookmark-item[container][open]:not([query], [tagContainer], [dayContainer]) > .toolbarbutton-icon {
+    list-style-image: url("icons/folder-open.png") !important;
+}
+
+menu.bookmark-item[container]:not([query], [tagContainer], [dayContainer]) > html|img.menu-icon {
+    content: url("icons/folder.png") !important;
+}
+
+menu.bookmark-item[container][open]:not([query], [tagContainer], [dayContainer]) > html|img.menu-icon {
+    content: url("icons/folder-open.png") !important;
+}
+
+/* At devPixelsPerPx 2 (or any HiDPI scale) the 16px PNGs are upscaled with  */
+/* smoothing and go blurry. Nearest-neighbour keeps them crisp; at integer   */
+/* scales every source pixel becomes an exact block. Inherited by the icon.  */
+
+:is(#new-tab-button, #tabs-newtab-button, #zoom-in-button, #zoom-out-button,
+    #screenshot-button, #fullscreen-button),
+.bookmark-item[container]:not([query], [tagContainer], [dayContainer]) {
+    image-rendering: pixelated !important;
+}
+
 /* Bevels in this file are inset box-shadows listed bottom/right first. Where
    inset shadows overlap at a corner the first-listed one wins, so the
    bottom/right colour claims the top-right and bottom-left corner pixels --
@@ -70,6 +136,17 @@ toolbar toolbarbutton:not([disabled]):hover > :is(.toolbarbutton-icon, .toolbarb
 
 toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .toolbarbutton-text, .toolbarbutton-badge-stack),
 #PersonalToolbar toolbarbutton.bookmark-item:not(.subviewbutton):not([disabled]):hover:active {
+    box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #7f7f7f !important;
+}
+
+/* A bookmark folder stays pressed in while its menu is open, like the menu */
+/* bar's menus. Listed after the hover rule (same specificity) so it wins   */
+/* while the pointer is over the open folder too.                           */
+
+#PersonalToolbar toolbarbutton.bookmark-item:not(.subviewbutton):not([disabled])[open] {
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    outline: none !important;
     box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #7f7f7f !important;
 }
 
@@ -696,6 +773,34 @@ menupopup :is(menuitem, menu)[disabled] {
 
 menupopup :is(menuitem, menu)[_moz-menuactive][disabled] {
     background-color: transparent !important;
+}
+
+/* Bookmark menu rows measured 30px against the File menu's 21.5px. Pin the */
+/* row and everything in it to the File items' box: 0.25em padding (the    */
+/* Linux --menuitem-padding) and no extra height or block margins.          */
+
+menupopup :is(menuitem, menu).bookmark-item {
+    min-height: 0 !important;
+    margin-block: 0 !important;
+    padding-block: 0.25em !important;
+}
+
+menupopup :is(menuitem, menu).bookmark-item > *,
+menupopup :is(menuitem, menu).bookmark-item::before,
+menupopup :is(menuitem, menu).bookmark-item::after {
+    min-height: 0 !important;
+    margin-block: 0 !important;
+    padding-block: 0 !important;
+}
+
+/* The 16px icon is taller than a line of 8pt Tahoma. Negative block       */
+/* margins make it count as one line tall; it overhangs 1-2px into the     */
+/* item's padding, and the row sizes to the text like a text-only item.    */
+
+menupopup :is(menuitem, menu).bookmark-item > html|img.menu-icon {
+    width: 16px !important;
+    height: 16px !important;
+    margin-block: calc((1lh - 16px) / 2) !important;
 }
 
 /* Menu separators: the same 2px groove as the lines between toolbars. */
