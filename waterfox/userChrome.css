@@ -182,9 +182,16 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     box-shadow: inset -1px 0 0 #ffffff, inset -2px 0 0 #7f7f7f !important;
 }
 
+/* The groove under the tab strip must sit *under* the tabs, so the selected
+   tab can run over it and open onto the toolbar below. Isolating the tab
+   strip and giving the groove z-index -1 puts it just above the strip's
+   background and beneath everything inside the strip, whatever z-index or
+   stacking contexts Waterfox gives the elements in between. */
+
 #TabsToolbar {
     border-bottom: none !important;
     outline: none !important;
+    isolation: isolate !important;
 }
 
 #TabsToolbar::after {
@@ -208,7 +215,7 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     background-size: calc(100% - 4px) 1px, 100% 1px, 100% 2px !important;
     background-repeat: no-repeat, no-repeat, no-repeat !important;
     pointer-events: none !important;
-    z-index: 1 !important;
+    z-index: -1 !important;
 }
 
 /* The tab strip's left edge and the groove under it are corner joins -- the
@@ -235,10 +242,26 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     background-repeat: no-repeat, no-repeat, no-repeat, no-repeat !important;
 }
 
-/* --- Tab layout --- */
+/* --- Tabs: the GTK theme's tab images --- */
+/* assets/tab_top_checked.png (unselected tabs) is a copy of the GTK theme's
+   theme/Redmond2K/gtk-3.0/assets/tab_top_checked.png, sliced the way
+   gtk-notebook.css slices it: 10 12 4 12 into 5px 6px 2px 6px. It is a 2x
+   image, so that is 1:1 on a 2x display, and `fill` paints the tab body from
+   its centre.
+
+   assets/tab_selected.png is generated from the GTK theme's tab_top.png --
+   in GTK's naming that is the *selected* tab -- which has no top
+   transparency, so the selected tab stands 2px taller than the others, as in
+   Win2K. Only its last 3px differ from the GTK image: they line up with the
+   groove under the tab strip, whose last pixel the
+   content frame's margin-top: -1px covers. The first of those rows lines up
+   with the groove's white line, and both edges carry on through it -- the
+   left edge's white joins the line, the right edge's grey and dark cover
+   it -- over a face-coloured body. The rest is face, so both edges stop
+   short of the bottom. */
 
 #tabbrowser-tabs {
-    --tab-border-radius: 6px !important;
+    --tab-border-radius: 0px !important;
     --tab-overflow-clip-margin: 0px !important;
     position: relative !important;
     z-index: 2 !important;
@@ -248,74 +271,67 @@ toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .t
     margin-inline-start: 16px !important;
 }
 
-/* --- Inactive tabs: flat Windows 2000 surface --- */
+/* Unselected tabs stop 4px short, leaving the groove under the tab strip
+   (#TabsToolbar::after) showing below them. */
 
-.tabbrowser-tab:not([selected]):not([visuallyselected]) .tab-background {
-    margin-bottom: 4px !important;
-    border-radius: 6px 6px 0 0 !important;
-    background: linear-gradient(
-        to right,
-        #7f7f77 0 1px,
-        #3f3f3f 1px 2px
-    ) right top / 2px calc(100% - 0px) no-repeat border-box, linear-gradient(
-        #ffffff,
-        #ffffff
-    ) left top / 1.5px calc(100% - 0px) no-repeat border-box, linear-gradient(
-        transparent,
-        transparent
-    ) left bottom / 100% 1px no-repeat border-box, #d4d0c8 padding-box !important;
-    border-top: 1.5px solid #ffffff !important;
-    border-left: 1.5px solid transparent !important;
-    border-right: 2px solid transparent !important;
-    border-bottom: 0px solid transparent !important;
-    box-shadow: none !important;
-}
-
-/* --- Selected tabs: match inactive tab surface --- */
-
-#tabbrowser-tabs .tabbrowser-tab[selected] .tab-background,
-#tabbrowser-tabs .tabbrowser-tab[visuallyselected] .tab-background,
-#tabbrowser-tabs .tab-background[selected],
-#tabbrowser-tabs .tab-background[visuallyselected] {
-    margin-bottom: 0 !important;
-    border-radius: 6px 6px 0 0 !important;
-    background-color: #d4d0c8 !important;
-    background-image: linear-gradient(
-        to right,
-        #7f7f77 0 1px,
-        #3f3f3f 1px 2px
-    ), linear-gradient(
-        #ffffff,
-        #ffffff
-    ) !important;
-    background-position: right top, left top !important;
-    background-size: 2px calc(100% - 2px), 1.5px calc(100% - 2px) !important;
-    background-repeat: no-repeat, no-repeat !important;
-    background-origin: border-box, border-box !important;
-    background-clip: border-box, border-box !important;
-    border-top: 1.5px solid #ffffff !important;
-    border-left: 1.5px solid transparent !important;
-    border-right: 2px solid transparent !important;
-    border-bottom: 0 !important;
-    box-shadow: none !important;
-}
-
-/* Match Waterfox's selected-tab layer directly. */
-
-:root #tabbrowser-tabs .tabbrowser-tab[selected] > .tab-stack > .tab-background[selected],
-:root #tabbrowser-tabs .tabbrowser-tab[visuallyselected] > .tab-stack > .tab-background[selected] {
+#tabbrowser-tabs .tabbrowser-tab > .tab-stack > .tab-background {
     appearance: none !important;
+    margin-bottom: 4px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
     outline: none !important;
-    background: linear-gradient(
-        to right,
-        #7f7f77 0 1px,
-        #3f3f3f 1px 2px
-    ) right top / 2px calc(100% - 2px) no-repeat border-box, #ffffff left top / 1.5px calc(100% - 2px) no-repeat border-box, #d4d0c8 padding-box !important;
+    box-shadow: none !important;
+    background: none !important;
+    border-image: url("assets/tab_top_checked.png") 10 12 4 12 fill / 5px 6px 2px 6px stretch !important;
+    image-rendering: pixelated !important;
+    image-rendering: -moz-crisp-edges !important;
+    image-rendering: crisp-edges !important;
+}
+
+/* The selected tab is also wider -- 3px on the left, 2px on the right --
+   overlapping its neighbours, as in Win2K and the GTK theme (which uses -2px
+   both sides; the extra pixel on the left was tuned by eye in Waterfox).
+   Only its background widens (margin-inline below), so no tab moves. The tab
+   clips its contents at its own edge, so it lets the background spill 4px
+   past it (3px at the sides, 4px down -- see below), and sits above the
+   neighbours so the overlap shows. This does not use
+   --tab-overflow-clip-margin: that also pads every tab, opening gaps. */
+
+#tabbrowser-tabs .tabbrowser-tab:is([selected], [visuallyselected]) {
+    overflow-clip-margin: 4px !important;
+    z-index: 1 !important;
+}
+
+/* The selected tab runs over the groove and joins the toolbar below. It
+   keeps the same 4px bottom margin as the other tabs and draws its image 4px
+   past its box with border-image-outset instead: the margin counts towards a
+   tab's height, so dropping it on the selected tab made a strip holding only
+   that tab 2px shorter, and the strip grew when a second tab opened.
+   No :root here: the default @namespace at the top of this file is XUL, so a
+   bare :root means a XUL root, and browser.xhtml's root is XHTML -- it never
+   matches. The attribute selector alone out-ranks the rule above. */
+
+#tabbrowser-tabs .tabbrowser-tab:is([selected], [visuallyselected]) > .tab-stack > .tab-background {
+    margin-inline: -3px -2px !important;
+    background: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    border-image: url("assets/tab_selected.png") 10 12 6 12 fill / 5px 6px 3px 6px stretch !important;
+    border-image-outset: 0 0 4px 0 !important;
 }
 
 #tabbrowser-tabs .tabbrowser-tab[selected],
 #tabbrowser-tabs .tabbrowser-tab[visuallyselected] {
     border-bottom: 0 !important;
+}
+
+/* No loading burst: when a page starts loading, Firefox animates a blue
+   circle out from the favicon to fill the tab, clipped to the tab's
+   rectangular box -- past the chamfered corners and edges of the tab image.
+   Win2K tabs never flashed; the favicon's loading spinner stays. */
+
+#tabbrowser-tabs .tab-loading-burst::before {
+    display: none !important;
 }
 
 /* --- Redmond2K browser colors --- */
