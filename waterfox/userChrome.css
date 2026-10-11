@@ -553,6 +553,131 @@ html|moz-urlbar#urlbar:is([focused], [open], [breakout]) > html|div.urlbar-backg
     box-shadow: none !important;
 }
 
+/* Boxes inside the field -- the search-engine button, the site identity   */
+/* button, the search-mode chip -- sit on rounded grey pills. IE's address */
+/* box had only a bare 16px icon, so the pills go and the corners square.  */
+/* The --urlbar-box-* colours feed all of them; --button-* are moz-button's */
+/* own, for the search-engine button.                                      */
+
+html|moz-urlbar#urlbar {
+    --urlbar-box-background-color: transparent !important;
+    --urlbar-box-background-color-hover: transparent !important;
+    --urlbar-box-background-color-active: transparent !important;
+    --urlbar-box-background-color-focus: transparent !important;
+    --urlbar-inner-border-radius: 0 !important;
+}
+
+html|moz-urlbar#urlbar html|moz-button.searchmode-switcher {
+    --button-background-color: transparent !important;
+    --button-background-color-hover: transparent !important;
+    --button-background-color-active: transparent !important;
+    --button-border-radius: 0 !important;
+}
+
+/* The chevron next to the engine icon; IE's field had nothing like it. */
+
+html|moz-urlbar#urlbar html|img.searchmode-switcher-dropmarker {
+    display: none !important;
+}
+
+/* --- Address bar suggestions: IE's AutoComplete list --- */
+/* A plain white list with a 1px black frame, rows edge to edge and the    */
+/* navy selection -- hover selects too, as it did in Windows. Rows lose    */
+/* their rounded inset: the gutter (a transparent border) and the list's   */
+/* side padding go to zero, and the separator line under the field goes.   */
+
+html|moz-urlbar#urlbar {
+    --urlbarView-results-padding: 0px !important;
+    --urlbarView-row-gutter: 0px !important;
+    --urlbarview-background-color-hover: #002468 !important;
+    --urlbarview-background-color-selected: #002468 !important;
+    --urlbarview-text-color-selected: #ffffff !important;
+}
+
+html|moz-urlbar#urlbar[open] html|div.urlbarView {
+    box-sizing: border-box !important;
+    border: 1px solid #000000 !important;
+    background-color: #ffffff !important;
+}
+
+html|moz-urlbar#urlbar[open] html|div.urlbarView-body-inner {
+    border-top: 0 !important;
+}
+
+html|moz-urlbar#urlbar html|div.urlbarView-row {
+    border-radius: 0 !important;
+}
+
+html|moz-urlbar#urlbar html|div.urlbarView-row[row-selectable]:hover {
+    color: #ffffff !important;
+}
+
+/* --- Search engine menu (the engine icon in the address bar): a Win2K menu --- */
+/* An HTML panel-list inside a XUL panel, so the menupopup rules don't reach */
+/* it. The frame is drawn on the panel as for the app menu. The engines are  */
+/* buttons inside panel-item shadow trees; ::part(button) rules from here    */
+/* never took effect, but those buttons read their padding, margin, radius  */
+/* and hover colours from variables, and variables inherit into shadow      */
+/* trees -- so everything is set as variables on the panel.                 */
+
+panel.searchmode-switcher-panel {
+    --panel-border-radius: 0 !important;
+    --panel-border-color: transparent !important;
+    --panel-background-color: transparent !important;
+    --panel-box-shadow: none !important;
+    --panel-box-shadow-margin: 0px !important;
+    /* The list's padding. With the panel content's 1px transparent border */
+    /* this matches the menus (1px border + 1px 2px): items 2px in from the */
+    /* top and 3px from the sides, the highlight 1px clear of the frame.    */
+    --panel-subview-body-padding: 1px 2px !important;
+    /* Item box: the menus' 0.25em rows, edge to edge, square. The engine   */
+    /* icon sits 8px in; the label starts 22px past the inline padding.    */
+    --panel-menuitem-padding: 0.25em 0.5em !important;
+    --panel-menuitem-padding-inline: 0.5em !important;
+    --panel-menuitem-margin: 0 !important;
+    --menuitem-border-radius: 0 !important;
+    /* Hover and press: the navy selection. */
+    --button-background-color-hover: #002468 !important;
+    --button-text-color-hover: #ffffff !important;
+    --button-background-color-active: #002468 !important;
+    --button-text-color-active: #ffffff !important;
+    --focus-outline: none !important;
+    background-color: #d4d0c8 !important;
+    color: #000000 !important;
+    box-shadow: inset -1px -1px 0 #3f3f3f, inset 1px 1px 0 #d4d0c8,
+                inset -2px -2px 0 #7f7f7f, inset 2px 2px 0 #ffffff !important;
+}
+
+/* panel-list's own box: no background, rounding or shadow of its own, so */
+/* the panel's bevel shows. These are declared on the list itself (:host), */
+/* so they must be set here, not inherited from the panel.                 */
+
+html|panel-list.searchmode-switcher-panel-list {
+    --panel-list-background-color: transparent !important;
+    --panel-list-color: #000000 !important;
+    --panel-list-border-radius: 0 !important;
+    --panel-list-box-shadow: none !important;
+}
+
+/* The "Search with:" heading: plain menu text, not dimmed. */
+
+panel.searchmode-switcher-panel html|div.searchmode-switcher-panel-description {
+    color: #000000 !important;
+}
+
+/* Separators: the menus' 2px groove. panel-list styles hr with !important  */
+/* from inside its shadow tree, which beats !important from out here, so   */
+/* the groove goes in through the variables those rules read, plus a white */
+/* inset shadow for the lower line. --panel-list-border-color is declared  */
+/* on the list itself, so it has to be restated on the hr.                  */
+
+panel.searchmode-switcher-panel html|hr {
+    --border-width: 2px;
+    --panel-list-border-color: #7f7f7f;
+    --space-small: 3px;
+    box-shadow: inset 0 -1px 0 #ffffff !important;
+}
+
 /* --- Browser content: recessed Windows 2000 frame --- */
 
 /* content-area.css gives the toolbox an unconditional 0.01px bottom border in
@@ -775,6 +900,32 @@ menupopup :is(menuitem, menu)[_moz-menuactive][disabled] {
     background-color: transparent !important;
 }
 
+/* Shortcut text (Ctrl+T): Firefox dims it; Win2K draws it in the item's   */
+/* own colour, so it follows the highlight and the disabled emboss.        */
+
+menupopup :is(menuitem, menu) > .menu-accel {
+    color: inherit !important;
+}
+
+/* Submenu arrow: Win2K's solid 4x7 triangle instead of Firefox's chevron. */
+/* context-fill takes the item's text colour: black, white when highlighted, */
+/* grey when disabled.                                                      */
+
+menupopup > menu::after {
+    width: 4px !important;
+    height: 7px !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='7' shape-rendering='crispEdges'%3E%3Cpath fill='context-fill' d='M0 0h1v7H0zM1 1h1v5H1zM2 2h1v3H2zM3 3h1v1H3z'/%3E%3C/svg%3E") !important;
+    background-size: 4px 7px !important;
+    background-repeat: no-repeat !important;
+    -moz-context-properties: fill !important;
+    fill: currentColor !important;
+    fill-opacity: 1 !important;
+}
+
+menupopup > menu:-moz-locale-dir(rtl)::after {
+    transform: scaleX(-1) !important;
+}
+
 /* Bookmark menu rows measured 30px against the File menu's 21.5px. Pin the */
 /* row and everything in it to the File items' box: 0.25em padding (the    */
 /* Linux --menuitem-padding) and no extra height or block margins.          */
@@ -821,9 +972,11 @@ menupopup menuseparator::before {
     background-image: linear-gradient(to bottom, #7f7f7f 0 50%, #ffffff 50% 100%) !important;
 }
 
-/* Menu checkboxes: the 13px sunken field from the GTK theme's c_box assets. */
-/* Firefox draws these with -moz-default-appearance: checkbox on Linux, which */
-/* ignores the GTK theme, so the box and its checkmark are rebuilt here. */
+/* Menu checkboxes: Win2K menus draw no box, just a bare 7x7 checkmark when */
+/* checked and nothing when not. Firefox draws a GTK checkbox here on Linux  */
+/* (-moz-default-appearance: checkbox), so that is switched off. The 13px    */
+/* box stays as an empty slot so checkable items keep their text aligned.   */
+/* The mark uses context-fill so it follows the item's text colour.         */
 
 menupopup menuitem:is([type="checkbox"], [checked]):not([type="radio"]) > html|img.menu-icon {
     appearance: none !important;
@@ -837,14 +990,15 @@ menupopup menuitem:is([type="checkbox"], [checked]):not([type="radio"]) > html|i
     padding: 0 !important;
     border: 0 !important;
     border-radius: 0 !important;
-    background-color: #ffffff !important;
+    background-color: transparent !important;
     background-image: none !important;
-    box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #7f7f7f,
-                inset -2px -2px 0 #d4d0c8, inset 2px 2px 0 #3f3f3f !important;
+    box-shadow: none !important;
+    -moz-context-properties: fill !important;
+    fill: currentColor !important;
 }
 
 menupopup menuitem:is([type="checkbox"], [checked]):not([type="radio"])[checked] > html|img.menu-icon {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7' shape-rendering='crispEdges'%3E%3Cpath fill='%23000' d='M6 0h1v1H6zM5 1h2v1H5zM0 2h1v1H0zM4 2h3v1H4zM0 3h2v1H0zM3 3h3v1H3zM0 4h5v1H0zM1 5h3v1H1zM2 6h1v1H2z'/%3E%3C/svg%3E") !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7' shape-rendering='crispEdges'%3E%3Cpath fill='context-fill' d='M6 0h1v1H6zM5 1h2v1H5zM0 2h1v1H0zM4 2h3v1H4zM0 3h2v1H0zM3 3h3v1H3zM0 4h5v1H0zM1 5h3v1H1zM2 6h1v1H2z'/%3E%3C/svg%3E") !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-size: 7px 7px !important;
