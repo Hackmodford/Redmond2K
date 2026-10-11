@@ -13,6 +13,20 @@ Run `./install.sh`. It copies the theme to
 `~/.local/share/sounds/Redmond2K` and sets it as the active sound theme
 via `xfconf-query`.
 
+It also installs the Thunar navigation click (`navigation_click.sh`) as
+`~/.local/bin/redmond2k-navigation-click`, with an XFCE autostart entry.
+Thunar has no navigation hook, so the script polls the active window and
+clicks when a Thunar window's title changes. It is X11 only and needs
+`xdotool`, `xprop` and `paplay`.
+
+It also installs the empty-trash sound (`trash_empty.sh`) as
+`~/.local/bin/redmond2k-trash-sound`, also autostarted. Thunar doesn't
+play theme sounds itself, so the script runs `gio monitor` on
+`~/.local/share/Trash/expunged`, where gvfs moves items just before it
+permanently deletes them from the trash. Emptying the trash (or deleting
+an item from inside it) plays `trash-empty.wav`; restoring stays silent.
+Needs `gio` and `paplay`.
+
 ### Manual
 
 Copy the `Redmond2K` folder into a sound theme directory:
@@ -68,6 +82,12 @@ Running outside the session sidesteps both.
 The `logind-inhibit-delay.conf` drop-in raises `InhibitDelayMaxSec` to 10s;
 the 5s default is uncomfortably close to the ~4.2s the sound takes. It
 applies after a reboot or `systemctl restart systemd-logind`.
+
+On shutdown/restart the daemon also stops `display-manager.service` before
+playing. xfce4-session exits as soon as it has requested the shutdown, and
+LightDM would otherwise respawn the greeter, flashing the login screen for
+the length of the sound. If a scheduled shutdown is cancelled, it is started
+again.
 
 A shutdown plays the sound once, not twice: `PrepareForShutdown` sets a flag
 that suppresses the logout path when the sessions are torn down afterwards.

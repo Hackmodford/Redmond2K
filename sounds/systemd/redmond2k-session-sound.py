@@ -26,9 +26,10 @@ Two events end a session, and both are handled here:
 
   shutdown/restart  logind's PrepareForShutdown signal, which fires before
                     anything is torn down. A "delay" inhibitor is held from
-                    startup so that logind waits for us here; the sound is
-                    played synchronously and the inhibitor released, which
-                    lets the shutdown continue.
+                    startup so that logind waits for us here; the display
+                    manager is stopped (so LightDM can't respawn the greeter
+                    during the sound), the sound is played synchronously and
+                    the inhibitor released, which lets the shutdown continue.
 """
 
 import os
@@ -49,12 +50,29 @@ MANAGER_PATH = "/org/freedesktop/login1"
 MANAGER_IFACE = "org.freedesktop.login1.Manager"
 SESSION_IFACE = "org.freedesktop.login1.Session"
 
+DISPLAY_MANAGER = "display-manager.service"
+
 PLAY_TIMEOUT = 15
 PLAY_ATTEMPTS = 3
 
 
 def log(message):
     print(message, file=sys.stderr, flush=True)
+
+
+def systemctl(action, unit):
+    """Queue a unit job without waiting, so the sound isn't held up."""
+    result = subprocess.run(
+        ["/usr/bin/systemctl", "--no-block", action, unit],
+        stdin=subprocess.DEVNULL, capture_output=True,
+    )
+    if result.returncode != 0:
+        log("systemctl %s %s failed: %s" % (
+            action, unit, result.stderr.decode(errors="replace").strip(),
+        ))
+        return False
+    log("%s %s" % (action, unit))
+    return True
 
 
 def play_sound(reason):
@@ -85,6 +103,7 @@ class SessionSound:
         self.bus = Gio.bus_get_sync(Gio.BusType.SYSTEM, None)
         self.inhibit_fds = []
         self.shutting_down = False
+        self.dm_stopped = False
 
         # Seed the set so sessions that are already open (or already
         # stranded in "closing") don't fire the sound at startup.
@@ -184,12 +203,20 @@ class SessionSound:
             # A scheduled shutdown was cancelled; re-arm for the next one.
             log("shutdown cancelled")
             self.shutting_down = False
+            if self.dm_stopped:
+                systemctl("start", DISPLAY_MANAGER)
+                self.dm_stopped = False
             self.take_inhibitor()
             return
 
         # Only for a real login - shutting down from the greeter is silent.
         self.shutting_down = True
         if self.open_sessions:
+            # xfce4-session exits as soon as it has asked for the shutdown,
+            # and LightDM, not knowing one is pending, respawns the greeter
+            # while we hold the inhibitor - so the login screen flashes up
+            # for the length of the sound. Stop the display manager first.
+            self.dm_stopped = systemctl("stop", DISPLAY_MANAGER)
             play_sound("shutdown/restart")
         else:
             log("shutdown with no user session - staying silent")
