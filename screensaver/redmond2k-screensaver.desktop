@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Wine Saver
+Comment=Choose and preview Windows screen savers (runs them with Wine)
+Exec=redmond2k-screensaver
+Icon=preferences-desktop-screensaver
+Categories=Settings;DesktopSettings;XFCE;
