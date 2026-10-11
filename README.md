@@ -16,6 +16,7 @@ aren't are called out below.
 | [sounds/](sounds/) | A freedesktop sound theme built from the Windows ME sounds, with a session-end daemon |
 | [xfce4-panel/](xfce4-panel/) | A saved panel profile: Start button, quick launch, tasklist, tray, clock |
 | [waterfox/](waterfox/) | A `userChrome.css` that makes Waterfox/Firefox look period-correct |
+| [screensaver/](screensaver/) | Wine Saver: a Win2K-style Screen Saver dialog that previews and runs `.scr` files through Wine |
 
 Each directory with anything non-obvious has its own readme. This page is the
 tour and the install order.
@@ -32,6 +33,7 @@ desktop:
 5. [Sounds](#sounds)
 6. [LightDM greeter](#lightdm-greeter)
 7. [Waterfox](#waterfox)
+8. [Wine Saver](#wine-saver)
 
 ## Fonts
 
@@ -110,6 +112,18 @@ Manager → Advanced or `xfwm4` xfconf:
 - Window animations off (the theme's `settings.ini` already disables GTK
   animations)
 - Title button layout `O|HMC` — the theme's `themerc` sets this
+
+The titlebar buttons ship in two styles. `smooth` is the default and draws the
+close button's X one pixel per row, which reads as a clean diagonal at 2x;
+`classic` is the original artwork, doubled 2x2 throughout so it downscales
+without artefacts. Switch with:
+
+```
+./theme/set-button-style.sh           # list styles, mark the active one
+./theme/set-button-style.sh classic
+```
+
+See [theme/Redmond2K/xfwm4/button-styles/](theme/Redmond2K/xfwm4/button-styles/).
 
 For Wine applications, apply the matching colour scheme:
 
@@ -250,6 +264,67 @@ scale. Waterfox takes it from the desktop; if it renders slightly small or
 lines look blended, check `Gdk/UnscaledDPI` (see the GTK theme section).
 
 Restart the browser.
+
+## Wine Saver
+
+Wine Saver (`screensaver/redmond2k-screensaver.py`) is the Win2K "Display Properties →
+Screen Saver" tab: pick a `.scr`, watch it in the little monitor, open its
+Settings, or Preview it full screen. Everything runs through Wine, and
+[XScreenSaver](https://www.jwz.org/xscreensaver/) runs the chosen one when
+you're idle.
+
+No screen savers ship with Redmond2K (they're copyrighted). Copy your own
+`.scr` files into any folder and point the dialog at it with **Browse...**, or
+pass the folder on the command line:
+
+```
+redmond2k-screensaver ~/screensavers
+```
+
+Install it for the current user (adds a "Wine Saver" menu entry):
+
+```
+sudo dnf install wine xdotool mingw32-gcc gamescope xscreensaver
+screensaver/install.sh
+```
+
+- `mingw32-gcc` builds `preview-host.exe`, a tiny Wine program that gives the
+  saver a window to draw its preview into (`/p <HWND>`, as on Windows).
+  Without it everything else works, but the monitor stays blue.
+- `gamescope` runs Preview at a period resolution (640×480, 800×600 or
+  1024×768, chosen in the dialog), scaled up to full screen with black bars
+  like a 4:3 monitor. Without it, savers run at your real resolution.
+  It also drives the "Monitor effect" option: a CRT shader (shadow mask,
+  scanlines or soft scanlines) drawn over full screen. The shaders and their
+  credits are in [screensaver/crt/](screensaver/crt/).
+- "Timing" slows savers back to their original speed. They step their
+  animation once per Windows timer tick, and Wine's timers are far more
+  precise than Windows 2000's (15.6 ms) or Windows 98's (55 ms), so 3D Maze
+  runs about twice as fast as it did. A small DLL, also built with
+  `mingw32-gcc`, rounds the saver's timers up to the old tick.
+- The installer creates a separate Wine prefix for savers
+  (`~/.local/share/redmond2k-screensaver/prefix`, about 1.6 GB) and keeps it at
+  96 DPI. A high-DPI `~/.wine` would make Wine draw them at a fraction of the
+  resolution and scale them up. Saver settings are stored in that prefix, and
+  their dialogs open at 96 DPI too, so they're small on a HiDPI screen (at a
+  raised DPI, some savers' fixed-size dialogs cut off options). It uses
+  Wine's GLX backend rather than EGL, which leaves 3D Pipes black. The prefix
+  also gets the Wine colour
+  scheme from the [GTK + xfwm4 theme](#gtk--xfwm4-theme) section.
+
+The choices are saved to `~/.config/redmond2k/screensaver.ini`.
+
+**Running as your screen saver.** OK/Apply also writes the folder's savers
+into `~/.xscreensaver`'s program list and selects the chosen one (`mode: one`),
+or disables the screen saver for "(None)". Your original file is backed up
+once to `~/.xscreensaver.redmond2k-backup`, and xscreensaver-settings must
+have created `~/.xscreensaver` first. The idle time, locking and power
+saving stay in xscreensaver-settings; the savers also show up in its list.
+
+XScreenSaver runs `redmond2k-screensaver --hack SAVER.scr`, which plays the
+saver in gamescope (at the dialog's resolution) inside XScreenSaver's own
+window, so XScreenSaver keeps the mouse and keyboard and stops it when you
+come back.
 
 ## Credits
 
