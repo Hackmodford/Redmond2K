@@ -1,0 +1,10 @@
+[Xfce Panel]
+Type=X-XFCE-PanelPlugin
+Encoding=UTF-8
+Name=Grab Handle
+Comment=Win2K toolbar grab handle, drawn by the Redmond2K theme
+Icon=org.xfce.panel.separator
+X-XFCE-Module=redmond2k-handle
+X-XFCE-Internal=true
+X-XFCE-Unique=false
+X-XFCE-API=2.0

@@ -14,7 +14,7 @@ aren't are called out below.
 | [theme/](theme/) | The GTK 2/3/4 + xfwm4 theme, plus a Wine colour scheme |
 | [Lightdm/](Lightdm/) | A `lightdm-webkit2-greeter` theme styled after the Win2K logon dialog |
 | [sounds/](sounds/) | A freedesktop sound theme built from the Windows ME sounds, with a session-end daemon |
-| [xfce4-panel/](xfce4-panel/) | A saved panel profile: Start button, quick launch, tasklist, tray, clock |
+| [xfce4-panel/](xfce4-panel/) | A saved panel profile (Start button, quick launch, tasklist, tray, clock) and the Grab Handle plugin |
 | [waterfox/](waterfox/) | A `userChrome.css` that makes Waterfox/Firefox look period-correct |
 | [screensaver/](screensaver/) | Wine Saver: a Win2K-style Screen Saver dialog that previews and runs `.scr` files through Wine |
 
@@ -181,6 +181,24 @@ xfce4-panel-profiles load xfce4-panel/redmond2k-panel.md.tar.bz2
 The three launchers point at applications from the machine this was captured
 on, so expect to re-point them at your own. The tray's `known-items` list is
 likewise a snapshot and is harmless if the applications aren't installed.
+
+### Grab handles
+
+The tasklist draws a Win2K grab handle on its left edge by itself. To put one
+anywhere else (e.g. left of the quick-launch icons), install the small
+**Grab Handle** panel plugin in `xfce4-panel/handle/`. It goes into `~/.local`,
+so only the build headers need sudo:
+
+```
+sudo dnf install xfce4-panel-devel
+xfce4-panel/handle/install.sh   # "uninstall" to remove
+xfce4-panel -r
+```
+
+Then add **Grab Handle** from Panel → Add New Items, as many as you like. It
+draws nothing itself; its look comes from `.redmond2k-handle` in
+`gtk-3.0/gtk-xfce4.css`. The panel's own Separator plugin can't be themed this
+way: it draws its line and dots directly and ignores CSS.
 
 ## Sounds
 
