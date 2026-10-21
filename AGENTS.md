@@ -12,7 +12,7 @@ Win2K theme for XFCE (Fedora 44). No build/tests; verify visually. Install docs:
 
 ## Palette is duplicated — keep in sync
 `#D4D0C8` face, `#FFFFFF` light, `#7F7F7F` shadow, `#3F3F3F` border, `#002468` selection, `#7191C2`/`#808080` active/inactive title, `#A9A6A0` disabled.
-Copies: gtk-3 `@define-color`, gtk-2 `gtk_color_scheme`, xfwm4 `themerc`+xpm, `wine/*.reg` (decimal RGB), `waterfox/userChrome.css` (lowercase hex), `Lightdm/.../layout.css`. Changing one → grep repo case-insensitively, update all. In GTK CSS use `@names`, not literals.
+Copies: gtk-3 `@define-color`, gtk-2 `gtk_color_scheme`, xfwm4 `themerc`+xpm, `wine/*.reg` (decimal RGB), `waterfox/` + `firefox/` `userChrome.css` (lowercase hex), `Lightdm/.../layout.css`. Changing one → grep repo case-insensitively, update all. In GTK CSS use `@names`, not literals.
 
 ## Testing
 - `~/.themes/Redmond2K` symlinks to the repo: edits are live. Reload GTK/xfwm4 by toggling `xfconf-query -c xsettings -p /Net/ThemeName` (or `-c xfwm4 -p /general/theme`) away and back; panel: `xfce4-panel -r`.

@@ -1,0 +1,1144 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+@namespace html url("http://www.w3.org/1999/xhtml");
+
+/* --- Navigation toolbar icons --- */
+
+#back-button > .toolbarbutton-icon,
+#forward-button > .toolbarbutton-icon,
+#home-button > .toolbarbutton-icon,
+#reload-button > .toolbarbutton-icon,
+#stop-button > .toolbarbutton-icon {
+    list-style-image: none !important;
+    background-image: var(--navigation-icon) !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: 24px 24px !important;
+}
+
+#back-button > .toolbarbutton-icon {
+    --navigation-icon: url("icons/back.svg");
+}
+
+#forward-button > .toolbarbutton-icon {
+    --navigation-icon: url("icons/forward.svg");
+}
+
+#home-button > .toolbarbutton-icon {
+    --navigation-icon: url("icons/home.svg");
+}
+
+#reload-button > .toolbarbutton-icon {
+    --navigation-icon: url("icons/reload.svg");
+}
+
+#stop-button > .toolbarbutton-icon {
+    --navigation-icon: url("icons/stop.svg");
+}
+
+#reload-button,
+#stop-button,
+#reload-button > .toolbarbutton-icon,
+#stop-button > .toolbarbutton-icon {
+    animation: none !important;
+    transition: none !important;
+}
+
+#stop-reload-button > :is(#reload-button, #stop-button) > .toolbarbutton-animatable-box {
+    display: none !important;
+}
+
+/* --- Small toolbar icons from the SE98 icon theme --- */
+/* 16px PNGs, the size these buttons draw at, so they stay pixel-exact.     */
+/* Firefox's are context-filled SVGs; a PNG ignores the fill and keeps its  */
+/* own colours. #tabs-newtab-button is the copy inside the tab strip that   */
+/* replaces #new-tab-button while the tabs don't overflow.                  */
+
+:is(#new-tab-button, #tabs-newtab-button) {
+    list-style-image: url("icons/tab-new.png") !important;
+}
+
+#zoom-in-button {
+    list-style-image: url("icons/zoom-in.png") !important;
+}
+
+#zoom-out-button {
+    list-style-image: url("icons/zoom-out.png") !important;
+}
+
+/* Set on the icon itself, not the button: some sheet Waterfox loads after */
+/* this one beats a button-level rule, and a value set on the icon always  */
+/* wins over one it would inherit from the button.                         */
+
+#screenshot-button > .toolbarbutton-icon {
+    list-style-image: url("icons/screenshot.png") !important;
+}
+
+#fullscreen-button {
+    list-style-image: url("icons/fullscreen.png") !important;
+}
+
+:root[inFullscreen] #fullscreen-button {
+    list-style-image: url("icons/fullscreen-exit.png") !important;
+}
+
+/* Bookmark folders, on the toolbar and in its menus. Smart, tag and       */
+/* history folders keep their own icons. As with the screenshot button,    */
+/* the image goes on the icon element so no button-level rule can win.     */
+/* Menu icons are html:img (hence html|), drawn from `content`; toolbar     */
+/* icons are XUL and draw from list-style-image.                           */
+
+.bookmark-item[container]:not([query], [tagContainer], [dayContainer]) > .toolbarbutton-icon {
+    list-style-image: url("icons/folder.png") !important;
+}
+
+.bookmark-item[container][open]:not([query], [tagContainer], [dayContainer]) > .toolbarbutton-icon {
+    list-style-image: url("icons/folder-open.png") !important;
+}
+
+menu.bookmark-item[container]:not([query], [tagContainer], [dayContainer]) > html|img.menu-icon {
+    content: url("icons/folder.png") !important;
+}
+
+menu.bookmark-item[container][open]:not([query], [tagContainer], [dayContainer]) > html|img.menu-icon {
+    content: url("icons/folder-open.png") !important;
+}
+
+/* At devPixelsPerPx 2 (or any HiDPI scale) the 16px PNGs are upscaled with  */
+/* smoothing and go blurry. Nearest-neighbour keeps them crisp; at integer   */
+/* scales every source pixel becomes an exact block. Inherited by the icon.  */
+
+:is(#new-tab-button, #tabs-newtab-button, #zoom-in-button, #zoom-out-button,
+    #screenshot-button, #fullscreen-button),
+.bookmark-item[container]:not([query], [tagContainer], [dayContainer]) {
+    image-rendering: pixelated !important;
+}
+
+/* Bevels in this file are inset box-shadows listed bottom/right first. Where
+   inset shadows overlap at a corner the first-listed one wins, so the
+   bottom/right colour claims the top-right and bottom-left corner pixels --
+   the way Windows' DrawEdge paints them, and the way the reference images in
+   assets/ are drawn. (Those were tried as border-images, but Waterfox's GPU
+   renderer samples 1-2px slices inexactly and leaked the corner colour along
+   the edges as runs or dots.)
+
+   Button bevels: 1px raised on hover, sunken while held. Inset shadows paint
+   over the padding and leave background-image alone, so buttons never change
+   size and the navigation icons, which are backgrounds, need no copies of
+   these rules. */
+
+toolbar toolbarbutton:not([disabled]):hover > :is(.toolbarbutton-icon, .toolbarbutton-text, .toolbarbutton-badge-stack),
+#PersonalToolbar toolbarbutton.bookmark-item:not(.subviewbutton):not([disabled]):hover {
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    outline: none !important;
+    box-shadow: inset -1px -1px 0 #7f7f7f, inset 1px 1px 0 #ffffff !important;
+}
+
+toolbar toolbarbutton:not([disabled]):hover:active > :is(.toolbarbutton-icon, .toolbarbutton-text, .toolbarbutton-badge-stack),
+#PersonalToolbar toolbarbutton.bookmark-item:not(.subviewbutton):not([disabled]):hover:active {
+    box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #7f7f7f !important;
+}
+
+/* A bookmark folder stays pressed in while its menu is open, like the menu */
+/* bar's menus. Listed after the hover rule (same specificity) so it wins   */
+/* while the pointer is over the open folder too.                           */
+
+#PersonalToolbar toolbarbutton.bookmark-item:not(.subviewbutton):not([disabled])[open] {
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    outline: none !important;
+    box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #7f7f7f !important;
+}
+
+/* Bookmark items carry the bevel on the whole button, so their children must
+   not also pick up the per-icon bevel from the generic toolbar rule above. */
+
+#PersonalToolbar toolbarbutton.bookmark-item:not(.subviewbutton):not([disabled]):hover > :is(.toolbarbutton-icon, .toolbarbutton-text, .toolbarbutton-badge-stack) {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* --- Nav bar height --- */
+/* The tallest things in the nav bar set its height: toolbar buttons (a 16px
+   icon box plus --toolbarbutton-padding-inner on each side, 8px at normal
+   window widths) and the address field's container (4px above and below the
+   field). 5px padding makes 26px buttons, which still fit the 24px navigation
+   icons inside the 1px hover bevel. The field's container gets no padding:
+   the 24px field sits centred in the row the buttons set, and with the
+   container exactly as tall as the field, the opened field's centring
+   offset (see the breakout rules) comes out at zero.
+   Icon boxes are square by construction (16px + 2 * padding each way).
+   The bar is then fixed at 34px: 4px padding, 26px buttons, 4px padding,
+   with the 24px field centred 1px inside that -- all whole pixels. The
+   padding also keeps hovered buttons clear of the divider line above, which
+   hangs 1px into the bar. Waterfox's own top border on the bar is a 0.01px
+   tabs/nav-bar separator hairline in a non-theme colour; it goes. */
+
+#nav-bar {
+    --toolbarbutton-padding-inner: 5px !important;
+    box-sizing: border-box !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    border-top: 0 !important;
+    padding-block: 4px !important;
+}
+
+/* min-height comes from --urlbar-container-height, which Waterfox's script
+   measures from this container and writes back, so it keeps the old height
+   alive; releasing it lets the script measure and publish the new one. */
+
+#urlbar-container {
+    padding-block: 0 !important;
+    min-height: 0 !important;
+}
+
+/* --- Shared styles: enable relative positioning --- */
+#toolbar-menubar,
+#nav-bar,
+#PersonalToolbar,
+#TabsToolbar,
+#navigator-toolbox {
+    position: relative !important;
+}
+
+/* --- Etched lines around and between the toolbars --- */
+/* Each is a 2px hard-stop gradient, dark then light, top to bottom or left
+   to right, matching assets/etch-9p.png. */
+
+/* --- 2px horizontal line ABOVE the Menu Bar --- */
+
+#navigator-toolbox::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 1px !important;
+    height: 2px !important;
+    background-image: linear-gradient(to bottom, #7f7f7f 0 50%, #ffffff 50% 100%) !important;
+    pointer-events: none !important;
+    z-index: 9999 !important;
+}
+
+/* --- 2px horizontal line BELOW each toolbar --- */
+
+#toolbar-menubar::after,
+#nav-bar::after {
+    content: "" !important;
+    position: absolute !important;
+    bottom: -1px !important;
+    left: 1px !important;
+    right: 1px !important;
+    height: 2px !important;
+    background-image: linear-gradient(to bottom, #7f7f7f 0 50%, #ffffff 50% 100%) !important;
+    pointer-events: none !important;
+    z-index: 9999 !important;
+}
+
+/* --- Vertical 2px line on the LEFT edge of each toolbar --- */
+
+#toolbar-menubar::before,
+#nav-bar::before,
+#PersonalToolbar::before,
+#TabsToolbar::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 1px !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 2px !important;
+    background-image: linear-gradient(to right, #7f7f7f 0 50%, #ffffff 50% 100%) !important;
+    pointer-events: none !important;
+    z-index: 9999 !important;
+}
+
+/* Keep the left outer edge continuous between adjacent toolbars. */
+
+#navigator-toolbox::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 1px !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 2px !important;
+    background-image: linear-gradient(to right, #7f7f7f 0 50%, #ffffff 50% 100%) !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+}
+
+/* --- Vertical 2px line on the RIGHT edge of each toolbar --- */
+/* Drawn on the toolbar itself, since ::before and ::after are taken. */
+
+/* The vertical padding leaves exactly 1px of face between the menu buttons and */
+/* the dividers. padding-top clears the 2px line #navigator-toolbox::before     */
+/* paints over the top of the toolbox; padding-bottom clears the 1px of the     */
+/* #toolbar-menubar::after line that sits inside the bar.                      */
+
+#toolbar-menubar {
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+    padding-top: 3px !important;
+    padding-bottom: 2px !important;
+}
+
+#toolbar-menubar,
+#nav-bar,
+#PersonalToolbar,
+#TabsToolbar {
+    border-right: 0 !important;
+    box-shadow: inset -1px 0 0 #ffffff, inset -2px 0 0 #7f7f7f !important;
+}
+
+/* The groove under the tab strip must sit *under* the tabs, so the selected
+   tab can run over it and open onto the toolbar below. Isolating the tab
+   strip and giving the groove z-index -1 puts it just above the strip's
+   background and beneath everything inside the strip, whatever z-index or
+   stacking contexts Waterfox gives the elements in between. */
+
+#TabsToolbar {
+    border-bottom: none !important;
+    outline: none !important;
+    isolation: isolate !important;
+}
+
+/* --- Tabs below the bookmarks bar --- */
+/* The menu bar, tab strip, nav bar and bookmarks bar are all direct children
+   of the toolbox's flex column (Firefox 158 has no #titlebar wrapper), so
+   `order` moves the tab strip to the bottom, sitting on the content frame. */
+
+#TabsToolbar {
+    order: 1 !important;
+}
+
+/* The bookmarks bar now has the tab strip under it instead of the content
+   frame, so it needs the same etched line as the other toolbars. */
+
+#PersonalToolbar:not([collapsed="true"])::after {
+    content: "" !important;
+    position: absolute !important;
+    bottom: -1px !important;
+    left: 1px !important;
+    right: 1px !important;
+    height: 2px !important;
+    background-image: linear-gradient(to bottom, #7f7f7f 0 50%, #ffffff 50% 100%) !important;
+    pointer-events: none !important;
+    z-index: 9999 !important;
+}
+
+#TabsToolbar::after {
+    content: "" !important;
+    position: absolute !important;
+    right: -2px !important;
+    bottom: 0 !important;
+    left: -2px !important;
+    height: 4px !important;
+    background-image: linear-gradient(
+        #7f7f77,
+        #7f7f77
+    ), linear-gradient(
+        #ffffff,
+        #ffffff
+    ), linear-gradient(
+        #d4d0c8,
+        #d4d0c8
+    ) !important;
+    background-position: 0 0, 0 1px, 0 2px !important;
+    background-size: calc(100% - 4px) 1px, 100% 1px, 100% 2px !important;
+    background-repeat: no-repeat, no-repeat, no-repeat !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+}
+
+/* The tab strip's left edge and the groove under it are corner joins -- the
+   side groove turns into the bottom one, with face-coloured masking rows --
+   which one side of a 9-patch cannot draw. They stay as gradients. */
+
+#TabsToolbar::before {
+    background-image: linear-gradient(
+        to right,
+        #7f7f77 0 50%,
+        #ffffff 50% 100%
+    ), linear-gradient(
+        #7f7f77,
+        #7f7f77
+    ), linear-gradient(
+        #ffffff,
+        #ffffff
+    ), linear-gradient(
+        #d4d0c8,
+        #d4d0c8
+    ) !important;
+    background-position: left top, left bottom 3px, left bottom 2px, left bottom !important;
+    background-size: 2px calc(100% - 4px), 2px 1px, 2px 1px, 2px 2px !important;
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat !important;
+}
+
+/* --- Tabs: the GTK theme's tab images --- */
+/* assets/tab_top_checked.png (unselected tabs) is a copy of the GTK theme's
+   theme/Redmond2K/gtk-3.0/assets/tab_top_checked.png, sliced the way
+   gtk-notebook.css slices it: 10 12 4 12 into 5px 6px 2px 6px. It is a 2x
+   image, so that is 1:1 on a 2x display, and `fill` paints the tab body from
+   its centre.
+
+   assets/tab_selected.png is generated from the GTK theme's tab_top.png --
+   in GTK's naming that is the *selected* tab -- which has no top
+   transparency, so the selected tab stands 2px taller than the others, as in
+   Win2K. Only its last 3px differ from the GTK image: they line up with the
+   groove under the tab strip, whose last pixel the
+   content frame's margin-top: -1px covers. The first of those rows lines up
+   with the groove's white line, and both edges carry on through it -- the
+   left edge's white joins the line, the right edge's grey and dark cover
+   it -- over a face-coloured body. The rest is face, so both edges stop
+   short of the bottom. */
+
+#tabbrowser-tabs {
+    --tab-border-radius: 0px !important;
+    --tab-overflow-clip-margin: 0px !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+#tabbrowser-tabs .tabbrowser-tab:first-of-type {
+    margin-inline-start: 16px !important;
+}
+
+/* Unselected tabs stop 4px short, leaving the groove under the tab strip
+   (#TabsToolbar::after) showing below them. */
+
+#tabbrowser-tabs .tabbrowser-tab > .tab-stack > .tab-background {
+    appearance: none !important;
+    margin-bottom: 4px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: none !important;
+    border-image: url("assets/tab_top_checked.png") 10 12 4 12 fill / 5px 6px 2px 6px stretch !important;
+    image-rendering: pixelated !important;
+    image-rendering: -moz-crisp-edges !important;
+    image-rendering: crisp-edges !important;
+}
+
+/* The selected tab is also wider -- 3px on the left, 2px on the right --
+   overlapping its neighbours, as in Win2K and the GTK theme (which uses -2px
+   both sides; the extra pixel on the left was tuned by eye in Waterfox).
+   Only its background widens (margin-inline below), so no tab moves. The tab
+   clips its contents at its own edge, so it lets the background spill 4px
+   past it (3px at the sides, 4px down -- see below), and sits above the
+   neighbours so the overlap shows. This does not use
+   --tab-overflow-clip-margin: that also pads every tab, opening gaps. */
+
+#tabbrowser-tabs .tabbrowser-tab:is([selected], [visuallyselected]) {
+    overflow-clip-margin: 4px !important;
+    z-index: 1 !important;
+}
+
+/* The selected tab runs over the groove and joins the toolbar below. It
+   keeps the same 4px bottom margin as the other tabs and draws its image 4px
+   past its box with border-image-outset instead: the margin counts towards a
+   tab's height, so dropping it on the selected tab made a strip holding only
+   that tab 2px shorter, and the strip grew when a second tab opened.
+   No :root here: the default @namespace at the top of this file is XUL, so a
+   bare :root means a XUL root, and browser.xhtml's root is XHTML -- it never
+   matches. The attribute selector alone out-ranks the rule above. */
+
+#tabbrowser-tabs .tabbrowser-tab:is([selected], [visuallyselected]) > .tab-stack > .tab-background {
+    margin-inline: -3px -2px !important;
+    background: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    border-image: url("assets/tab_selected.png") 10 12 6 12 fill / 5px 6px 3px 6px stretch !important;
+    border-image-outset: 0 0 4px 0 !important;
+}
+
+#tabbrowser-tabs .tabbrowser-tab[selected],
+#tabbrowser-tabs .tabbrowser-tab[visuallyselected] {
+    border-bottom: 0 !important;
+}
+
+/* No loading burst: when a page starts loading, Firefox animates a blue
+   circle out from the favicon to fill the tab, clipped to the tab's
+   rectangular box -- past the chamfered corners and edges of the tab image.
+   Win2K tabs never flashed; the favicon's loading spinner stays. */
+
+#tabbrowser-tabs .tab-loading-burst::before {
+    display: none !important;
+}
+
+/* --- Redmond2K browser colors --- */
+
+:root {
+        --lwt-accent-color: #d4d0c8 !important;
+        --lwt-text-color: #000000 !important;
+        --toolbar-bgcolor: #d4d0c8 !important;
+        --toolbar-color: #000000 !important;
+        --toolbar-field-background-color: #ffffff !important;
+        --toolbar-field-color: #000000 !important;
+        --toolbar-field-focus-background-color: #ffffff !important;
+        --toolbar-field-focus-color: #000000 !important;
+        --tab-line-color: #393c39 !important;
+        --tab-loading-fill: #393c39 !important;
+        --arrowpanel-background: #d4d0c8 !important;
+        --arrowpanel-color: #000000 !important;
+        --panel-background: #d4d0c8 !important;
+        --panel-color: #000000 !important;
+}
+
+#navigator-toolbox,
+#toolbar-menubar,
+#nav-bar,
+#PersonalToolbar,
+#TabsToolbar {
+        background-color: #d4d0c8 !important;
+        color: #000000 !important;
+}
+
+/* The urlbar is an HTML element (moz-urlbar), and this file's default
+   @namespace is XUL, so bare #urlbar / .urlbar-background selectors never
+   match it -- every urlbar selector here names the html| namespace. */
+
+html|moz-urlbar#urlbar,
+*|*#searchbar {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+}
+
+/* Field height: 24px -- Win2K Internet Explorer's address box was 22px (2px
+   sunken frame, 1px gap, 16px icon, 1px gap, 2px frame); 24px gives each
+   icon a pixel more room and suits the 9pt UI font.
+   Waterfox sizes the icon boxes inside the field from
+   --urlbar-basic-component-size (min-height minus the container padding) and
+   --urlbar-icon-padding, both declared at the root. A custom property
+   resolves its var()s where it is declared, so those are frozen at the root's
+   min-height and would keep the field at its old height; they are restated
+   here. The component size subtracts 6px: the frame's 2px of shadow rings sit
+   over 1px of padding on each side (see .urlbar-input-container below). */
+
+/* Firefox 158 sizes the field from --urlbar-height instead (32px, with
+   browser.nova.enabled on by default), and Nova's 4px container padding plus
+   the 2px for the frame below made the field 44px. --urlbar-height drives the
+   bar's min-height and the input's line-height; the padding goes back to the
+   1px gap the frame expects; and Nova's open-suggestions background, which
+   reaches 8px past the field with a drop shadow, stays on the field's edge. */
+
+html|moz-urlbar#urlbar {
+    --urlbar-min-height: 24px !important;
+    --urlbar-height: var(--urlbar-min-height) !important;
+    --urlbar-input-container-padding: 1px !important;
+    --urlbar-background-overhang-open: 0px !important;
+    --urlbar-background-box-shadow-open: none !important;
+    --urlbar-basic-component-size: calc(var(--urlbar-min-height) - 6px) !important;
+    --urlbar-icon-padding: calc((var(--urlbar-basic-component-size) - 16px) / 2) !important;
+    --urlbar-background-background-color: #ffffff !important;
+    --urlbar-background-background-color-focused: #ffffff !important;
+    --urlbar-background-border-radius: 0 !important;
+    --urlbar-background-outline-focused: none !important;
+    --urlbar-background-box-shadow-breakout: none !important;
+    --urlbar-background-box-shadow-breakout-compact: none !important;
+}
+
+/* Sunken field frame, the same two rings as the content frame. The shadows */
+/* paint over the padding, so the container's own padding grows by the 2px  */
+/* they cover and the text keeps clear of them.                              */
+
+html|moz-urlbar#urlbar > html|div.urlbar-input-container {
+    /* The frame is drawn on this container, which otherwise sizes to its
+       contents -- Tahoma's line plus padding can come to a fractional
+       height, leaving the frame on a half pixel inside the urlbar. */
+    min-height: var(--urlbar-min-height) !important;
+    border-radius: 0 !important;
+    border: 0 !important;
+    padding: calc(var(--urlbar-input-container-padding) + 2px) !important;
+    box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #7f7f7f,
+                inset -2px -2px 0 #d4d0c8, inset 2px 2px 0 #3f3f3f !important;
+}
+
+/* The input's line box fills the field's full --urlbar-height so a click
+   anywhere places the caret; inside the frame's 3px padding that would push
+   the container to 30px. It gets the inner height instead. */
+
+html|moz-urlbar#urlbar html|input.urlbar-input {
+    line-height: calc(var(--urlbar-min-height) - 6px) !important;
+}
+
+/* Clicking into the field opens Waterfox's "extended breakout": the urlbar
+   floats, its frame's container takes the toolbar's full height with extra
+   padding, and it widens by its side margins. The field keeps its size
+   instead; the suggestions list still opens below it. Waterfox's script pins
+   the floating field's top to the top of #urlbar-container, expecting it to
+   fill that height, so the margin centres it again using the two heights the
+   script keeps up to date. */
+
+html|moz-urlbar#urlbar[breakout][breakout-extend] {
+    margin-inline: 0 !important;
+    margin-block-start: calc((var(--urlbar-container-height) - var(--urlbar-height)) / 2) !important;
+    width: var(--urlbar-width) !important;
+}
+
+/* Sized the same way as when closed (min-height on the container rule
+   below), not from --urlbar-height: the script measures that and can land on
+   a half pixel. */
+
+html|moz-urlbar#urlbar[breakout][breakout-extend] > html|div.urlbar-input-container {
+    height: auto !important;
+}
+
+html|moz-urlbar#urlbar[focused] > html|div.urlbar-input-container,
+html|moz-urlbar#urlbar[open] > html|div.urlbar-input-container,
+html|moz-urlbar#urlbar[breakout] > html|div.urlbar-input-container {
+    outline: none !important;
+    outline-offset: 0 !important;
+}
+
+html|moz-urlbar#urlbar:is([focused], [open], [breakout]) > html|div.urlbar-background {
+    outline: none !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Boxes inside the field -- the search-engine button, the site identity   */
+/* button, the search-mode chip -- sit on rounded grey pills. IE's address */
+/* box had only a bare 16px icon, so the pills go and the corners square.  */
+/* The --urlbar-box-* colours feed all of them; --button-* are moz-button's */
+/* own, for the search-engine button.                                      */
+
+html|moz-urlbar#urlbar {
+    --urlbar-box-background-color: transparent !important;
+    --urlbar-box-background-color-hover: transparent !important;
+    --urlbar-box-background-color-active: transparent !important;
+    --urlbar-box-background-color-focus: transparent !important;
+    --urlbar-inner-border-radius: 0 !important;
+}
+
+html|moz-urlbar#urlbar html|moz-button.searchmode-switcher {
+    --button-background-color: transparent !important;
+    --button-background-color-hover: transparent !important;
+    --button-background-color-active: transparent !important;
+    --button-border-radius: 0 !important;
+}
+
+/* The chevron next to the engine icon; IE's field had nothing like it. */
+
+html|moz-urlbar#urlbar html|img.searchmode-switcher-dropmarker {
+    display: none !important;
+}
+
+/* --- Address bar suggestions: IE's AutoComplete list --- */
+/* A plain white list with a 1px black frame, rows edge to edge and the    */
+/* navy selection -- hover selects too, as it did in Windows. Rows lose    */
+/* their rounded inset: the gutter (a transparent border) and the list's   */
+/* side padding go to zero, and the separator line under the field goes.   */
+
+html|moz-urlbar#urlbar {
+    --urlbarView-results-padding: 0px !important;
+    --urlbarView-row-gutter: 0px !important;
+    --urlbarview-background-color-hover: #002468 !important;
+    --urlbarview-background-color-selected: #002468 !important;
+    --urlbarview-text-color-selected: #ffffff !important;
+}
+
+html|moz-urlbar#urlbar[open] html|div.urlbarView {
+    box-sizing: border-box !important;
+    border: 1px solid #000000 !important;
+    background-color: #ffffff !important;
+}
+
+html|moz-urlbar#urlbar[open] html|div.urlbarView-body-inner {
+    border-top: 0 !important;
+}
+
+html|moz-urlbar#urlbar html|div.urlbarView-row {
+    border-radius: 0 !important;
+}
+
+html|moz-urlbar#urlbar html|div.urlbarView-row[row-selectable]:hover {
+    color: #ffffff !important;
+}
+
+/* --- Search engine menu (the engine icon in the address bar): a Win2K menu --- */
+/* An HTML panel-list inside a XUL panel, so the menupopup rules don't reach */
+/* it. The frame is drawn on the panel as for the app menu. The engines are  */
+/* buttons inside panel-item shadow trees; ::part(button) rules from here    */
+/* never took effect, but those buttons read their padding, margin, radius  */
+/* and hover colours from variables, and variables inherit into shadow      */
+/* trees -- so everything is set as variables on the panel.                 */
+
+panel.searchmode-switcher-panel {
+    --panel-border-radius: 0 !important;
+    --panel-border-color: transparent !important;
+    --panel-background-color: transparent !important;
+    --panel-box-shadow: none !important;
+    --panel-box-shadow-margin: 0px !important;
+    /* The list's padding. With the panel content's 1px transparent border */
+    /* this matches the menus (1px border + 1px 2px): items 2px in from the */
+    /* top and 3px from the sides, the highlight 1px clear of the frame.    */
+    --panel-subview-body-padding: 1px 2px !important;
+    /* Item box: the menus' 0.25em rows, edge to edge, square. The engine   */
+    /* icon sits 8px in; the label starts 22px past the inline padding.    */
+    --panel-menuitem-padding: 0.25em 0.5em !important;
+    --panel-menuitem-padding-inline: 0.5em !important;
+    --panel-menuitem-margin: 0 !important;
+    --menuitem-border-radius: 0 !important;
+    /* Hover and press: the navy selection. */
+    --button-background-color-hover: #002468 !important;
+    --button-text-color-hover: #ffffff !important;
+    --button-background-color-active: #002468 !important;
+    --button-text-color-active: #ffffff !important;
+    --focus-outline: none !important;
+    background-color: #d4d0c8 !important;
+    color: #000000 !important;
+    box-shadow: inset -1px -1px 0 #3f3f3f, inset 1px 1px 0 #d4d0c8,
+                inset -2px -2px 0 #7f7f7f, inset 2px 2px 0 #ffffff !important;
+}
+
+/* panel-list's own box: no background, rounding or shadow of its own, so */
+/* the panel's bevel shows. These are declared on the list itself (:host), */
+/* so they must be set here, not inherited from the panel.                 */
+
+html|panel-list.searchmode-switcher-panel-list {
+    --panel-list-background-color: transparent !important;
+    --panel-list-color: #000000 !important;
+    --panel-list-border-radius: 0 !important;
+    --panel-list-box-shadow: none !important;
+}
+
+/* The "Search with:" heading: plain menu text, not dimmed. */
+
+panel.searchmode-switcher-panel html|div.searchmode-switcher-panel-description {
+    color: #000000 !important;
+}
+
+/* Separators: the menus' 2px groove. panel-list styles hr with !important  */
+/* from inside its shadow tree, which beats !important from out here, so   */
+/* the groove goes in through the variables those rules read, plus a white */
+/* inset shadow for the lower line. --panel-list-border-color is declared  */
+/* on the list itself, so it has to be restated on the hr.                  */
+
+panel.searchmode-switcher-panel html|hr {
+    --border-width: 2px;
+    --panel-list-border-color: #7f7f7f;
+    --space-small: 3px;
+    box-shadow: inset 0 -1px 0 #ffffff !important;
+}
+
+/* --- Browser content: recessed Windows 2000 frame --- */
+
+/* content-area.css gives the toolbox an unconditional 0.01px bottom border in
+   --chrome-content-separator-color, which paints a hairline of a non-theme
+   colour directly above the frame. Nothing gates it in this configuration. */
+
+#navigator-toolbox {
+    border-bottom: 0 !important;
+}
+
+/* Sunken frame around the page: #7f7f7f then #3f3f3f on the top/left, #ffffff
+   then #d4d0c8 on the bottom/right, as in assets/content-border-9p-2x.png.
+   The padding holds the 2px the rings cover. */
+
+#tabbrowser-tabbox {
+    box-sizing: border-box !important;
+    margin-top: -1px !important;
+    padding: 2px !important;
+    background-color: #d4d0c8 !important;
+    border: 0 !important;
+    box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #7f7f7f,
+                inset -2px -2px 0 #d4d0c8, inset 2px 2px 0 #3f3f3f !important;
+}
+
+/* Something inside the frame paints a 1px rim in --chrome-content-separator-color
+   (ThreeDShadow, so it picks up the GTK theme) right where the page starts, plus a
+   faint shadow trailing off it. Measured on all four edges against about:blank, so
+   it is chrome, not page content. sidebar.revamp is off, which rules out the
+   .browserContainer outline in content-area.css, and nothing else in the shipped
+   CSS obviously matches -- hence clearing the whole stack rather than one rule. */
+
+#tabbrowser-tabpanels,
+.browserSidebarContainer,
+.browserContainer,
+.browserStack,
+browser[type="content"] {
+    border: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+html|moz-urlbar#urlbar,
+html|div.urlbar-background {
+    border-radius: 0 !important;
+}
+
+#tabbrowser-tabs .tabbrowser-tab {
+        color: #000000 !important;
+}
+
+menupopup,
+panel {
+        --arrowpanel-background: #d4d0c8 !important;
+        --arrowpanel-color: #000000 !important;
+        --panel-background: #d4d0c8 !important;
+        --panel-color: #000000 !important;
+}
+
+/* --- App menu (the hamburger button's panel): a Win2K menu --- */
+/* It is a panel, not a menupopup, so the menu rules below do not reach it.
+   The frame works the same way: the visible box is the panel's content part,
+   painted from --panel-* variables, so those go transparent and the window
+   bevel is drawn on the panel itself -- same shadows as menupopup. */
+
+#appMenu-popup {
+    --panel-border-radius: 0 !important;
+    --panel-border-color: transparent !important;
+    --panel-background-color: transparent !important;
+    --panel-text-color: #000000 !important;
+    --panel-box-shadow: none !important;
+    --panel-box-shadow-margin: 0px !important;
+    --panel-menuitem-margin: 0 !important;
+    --panel-menuitem-border-radius: 0 !important;
+    background-color: #d4d0c8 !important;
+    color: #000000 !important;
+    box-shadow: inset -1px -1px 0 #3f3f3f, inset 1px 1px 0 #d4d0c8,
+                inset -2px -2px 0 #7f7f7f, inset 2px 2px 0 #ffffff !important;
+}
+
+/* The panel has panel-no-padding, so without this the views would cover the
+   inner ring. With the part's 1px transparent border this puts items 2px in
+   from the top and 3px from the sides, as in the menus, so the highlight
+   stops clear of the bevel. */
+
+#appMenu-multiView {
+    margin: 1px 2px !important;
+}
+
+#appMenu-popup panelview,
+#appMenu-popup .panel-subview-body {
+    background-color: #d4d0c8 !important;
+    color: #000000 !important;
+}
+
+#appMenu-popup :is(.subviewbutton, .panel-banner-item) {
+    border-radius: 0 !important;
+    outline: none !important;
+    color: #000000 !important;
+}
+
+#appMenu-popup .subviewbutton:not([disabled]):is(:hover, :focus-visible, [open]) {
+    background-color: #002468 !important;
+    color: #ffffff !important;
+}
+
+/* Shortcut hints are an ::after in a dimmed colour; follow the item's text. */
+
+#appMenu-popup .subviewbutton:not([disabled]):is(:hover, :focus-visible, [open])::after {
+    color: inherit !important;
+}
+
+#appMenu-popup .subviewbutton[disabled] {
+    color: #a9a6a0 !important;
+    text-shadow: 1px 1px 0 #ffffff !important;
+}
+
+/* Separators: the same etched groove as the menus, replacing both the plain */
+/* line and the gradient "zap" border-image under the account row.           */
+
+#appMenu-popup toolbarseparator {
+    margin: 0 !important;
+    padding: 3px !important;
+}
+
+#appMenu-popup toolbarseparator::before {
+    border: 0 !important;
+    border-image: none !important;
+    flex: 1 !important;
+    height: 2px !important;
+    min-height: 2px !important;
+    background-image: linear-gradient(to bottom, #7f7f7f 0 50%, #ffffff 50% 100%) !important;
+}
+
+/* --- Menus: Windows 2000 frames, matching theme/Redmond2K/gtk-3.0/gtk-menu.css --- */
+/* Raised:  outer #d4d0c8 top/left, #3f3f3f bottom/right; inner #ffffff top/left, #7f7f77 bottom/right */
+/* Sunken:  the same two pairs swapped */
+
+/* Menu bar buttons: flat, raised on hover, pressed in while their menu is open.
+   Same 1px bevels as the toolbar buttons. */
+
+#main-menubar > menu {
+    appearance: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 4px 6px !important;
+    background-color: transparent !important;
+    color: #000000 !important;
+}
+
+#main-menubar > menu[_moz-menuactive]:not([open]):not([disabled]) {
+    background-color: #d4d0c8 !important;
+    color: #000000 !important;
+    box-shadow: inset -1px -1px 0 #7f7f7f, inset 1px 1px 0 #ffffff !important;
+}
+
+#main-menubar > menu[open]:not([disabled]) {
+    background-color: #d4d0c8 !important;
+    color: #000000 !important;
+    box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #7f7f7f !important;
+}
+
+#main-menubar > menu[disabled] {
+    color: #a9a6a0 !important;
+    text-shadow: 1px 1px 0 #ffffff !important;
+}
+
+/* Menu popups: raised frame, and only enough padding to clear it. */
+/* ::part(content) is not matchable from userChrome.css, so the frame is drawn */
+/* on the popup itself and its content part is made transparent to show it.   */
+/* The frame follows assets/window-border-9p-2x.png: #d4d0c8 then #ffffff on */
+/* the top/left, #3f3f3f then #7f7f7f on the bottom/right.                    */
+
+menupopup {
+    --panel-border-radius: 0 !important;
+    --panel-border-color: transparent !important;
+    --panel-background-color: transparent !important;
+    --panel-text-color: #000000 !important;
+    /* 1px transparent part border + this padding = the inset of the items. */
+    /* Inline gets 1px extra so the highlight stops clear of the inner bevel. */
+    --panel-padding: 1px 2px !important;
+    --panel-box-shadow: none !important;
+    --panel-box-shadow-margin: 0px !important;
+    --menuitem-border-radius: 0 !important;
+    --menuitem-margin: 0 !important;
+    background-color: #d4d0c8 !important;
+    color: #000000 !important;
+    box-shadow: inset -1px -1px 0 #3f3f3f, inset 1px 1px 0 #d4d0c8,
+                inset -2px -2px 0 #7f7f7f, inset 2px 2px 0 #ffffff !important;
+}
+
+/* Drop the menu bar's popups clear of the divider line under the menu bar: */
+/* 2px of #toolbar-menubar padding, then the 2px line straddling its edge.   */
+
+#main-menubar > menu > menupopup {
+    margin-top: 3px !important;
+}
+
+/* Menu items: square, edge to edge inside the frame. */
+
+menupopup :is(menuitem, menu) {
+    appearance: none !important;
+    border-radius: 0 !important;
+    margin-inline: 0 !important;
+    color: #000000 !important;
+}
+
+menupopup :is(menuitem, menu)[_moz-menuactive]:not([disabled]) {
+    background-color: #002468 !important;
+    color: #ffffff !important;
+    text-shadow: none !important;
+}
+
+menupopup :is(menuitem, menu)[disabled] {
+    color: #a9a6a0 !important;
+    text-shadow: 1px 1px 0 #ffffff !important;
+}
+
+menupopup :is(menuitem, menu)[_moz-menuactive][disabled] {
+    background-color: transparent !important;
+}
+
+/* Shortcut text (Ctrl+T): Firefox dims it; Win2K draws it in the item's   */
+/* own colour, so it follows the highlight and the disabled emboss.        */
+
+menupopup :is(menuitem, menu) > .menu-accel {
+    color: inherit !important;
+}
+
+/* Submenu arrow: Win2K's solid 4x7 triangle instead of Firefox's chevron. */
+/* context-fill takes the item's text colour: black, white when highlighted, */
+/* grey when disabled.                                                      */
+
+menupopup > menu::after {
+    width: 4px !important;
+    height: 7px !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='7' shape-rendering='crispEdges'%3E%3Cpath fill='context-fill' d='M0 0h1v7H0zM1 1h1v5H1zM2 2h1v3H2zM3 3h1v1H3z'/%3E%3C/svg%3E") !important;
+    background-size: 4px 7px !important;
+    background-repeat: no-repeat !important;
+    -moz-context-properties: fill !important;
+    fill: currentColor !important;
+    fill-opacity: 1 !important;
+}
+
+menupopup > menu:-moz-locale-dir(rtl)::after {
+    transform: scaleX(-1) !important;
+}
+
+/* Bookmark menu rows measured 30px against the File menu's 21.5px. Pin the */
+/* row and everything in it to the File items' box: 0.25em padding (the    */
+/* Linux --menuitem-padding) and no extra height or block margins.          */
+
+menupopup :is(menuitem, menu).bookmark-item {
+    min-height: 0 !important;
+    margin-block: 0 !important;
+    padding-block: 0.25em !important;
+}
+
+menupopup :is(menuitem, menu).bookmark-item > *,
+menupopup :is(menuitem, menu).bookmark-item::before,
+menupopup :is(menuitem, menu).bookmark-item::after {
+    min-height: 0 !important;
+    margin-block: 0 !important;
+    padding-block: 0 !important;
+}
+
+/* The 16px icon is taller than a line of 8pt Tahoma. Negative block       */
+/* margins make it count as one line tall; it overhangs 1-2px into the     */
+/* item's padding, and the row sizes to the text like a text-only item.    */
+
+menupopup :is(menuitem, menu).bookmark-item > html|img.menu-icon {
+    width: 16px !important;
+    height: 16px !important;
+    margin-block: calc((1lh - 16px) / 2) !important;
+}
+
+/* Menu separators: the same 2px groove as the lines between toolbars. */
+
+menupopup menuseparator {
+    appearance: none !important;
+    border: 0 !important;
+    margin: 0 !important;
+    padding-block: 3px !important;
+    padding-inline: 3px !important;
+}
+
+menupopup menuseparator::before {
+    border: 0 !important;
+    flex: 1 !important;
+    height: 2px !important;
+    min-height: 2px !important;
+    background-image: linear-gradient(to bottom, #7f7f7f 0 50%, #ffffff 50% 100%) !important;
+}
+
+/* Menu checkboxes: Win2K menus draw no box, just a bare 7x7 checkmark when */
+/* checked and nothing when not. Firefox draws a GTK checkbox here on Linux  */
+/* (-moz-default-appearance: checkbox), so that is switched off. The 13px    */
+/* box stays as an empty slot so checkable items keep their text aligned.   */
+/* The mark uses context-fill so it follows the item's text colour.         */
+
+menupopup menuitem:is([type="checkbox"], [checked]):not([type="radio"]) > html|img.menu-icon {
+    appearance: none !important;
+    -moz-default-appearance: none !important;
+    visibility: inherit !important;
+    box-sizing: border-box !important;
+    width: 13px !important;
+    height: 13px !important;
+    min-width: 13px !important;
+    min-height: 13px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    -moz-context-properties: fill !important;
+    fill: currentColor !important;
+}
+
+menupopup menuitem:is([type="checkbox"], [checked]):not([type="radio"])[checked] > html|img.menu-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7' shape-rendering='crispEdges'%3E%3Cpath fill='context-fill' d='M6 0h1v1H6zM5 1h2v1H5zM0 2h1v1H0zM4 2h3v1H4zM0 3h2v1H0zM3 3h3v1H3zM0 4h5v1H0zM1 5h3v1H1zM2 6h1v1H2z'/%3E%3C/svg%3E") !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: 7px 7px !important;
+}
+
+/* --- Status bar: Windows 2000 status bar with a sunken text pane --- */
+/* Waterfox's own chrome://browser/content/waterfox/statusbar/statusbar.css puts */
+/* a 1px separator above the bar and centres the text; Win2K has neither. The   */
+/* bar itself is plain face colour, and the text sits in a 1px sunken pane.     */
+/* Enable it in Settings > Appearance > Status Bar (browser.statusbar.enabled). */
+
+#browser-bottombox {
+    background-color: #d4d0c8 !important;
+    color: #000000 !important;
+}
+
+/* Height comes from the tallest widget in the bar, so the button padding is  */
+/* what sets it: toolbarbuttons.css sizes their icon box as 16px + 2 * the    */
+/* inner padding, and the stock 8px makes that 32px. The bar adds its own     */
+/* padding on top of that. Tune --toolbarbutton-padding-inner to taste.       */
+
+#status-bar {
+    --toolbarbutton-padding-inner: 4px !important;
+    --toolbarbutton-padding-outer: 4px !important;
+    appearance: none !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: repeat !important;
+    box-sizing: border-box !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    /* Extra padding above sets the pane off the content frame's bottom edge. */
+    padding: 3px 1px 1px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background-color: #d4d0c8 !important;
+    color: #000000 !important;
+    overflow: visible !important;
+}
+
+/* The status text pane: 1px sunken, left aligned, filling the bar. */
+
+#status-bar #status-text {
+    flex: 1 1 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    padding: 0 3px !important;
+    background-color: #d4d0c8 !important;
+    box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #7f7f7f !important;
+}
+
+/* StatusBar.sys.mjs moves #statuspanel-label in and out of the bar, so the */
+/* label has to lose its own frame in both places. */
+
+#status-bar #status-text > #statuspanel-label {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background-color: transparent !important;
+    color: #000000 !important;
+    text-shadow: none !important;
+}
+
+/* Widgets placed in the bar (zoom controls, screenshot, fullscreen) keep the */
+/* square toolbar buttons; only the radius and spacing need flattening here. */
+
+#status-bar toolbarbutton {
+    appearance: none !important;
+    border-radius: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    color: #000000 !important;
+}
+
+#status-bar toolbarbutton > .toolbarbutton-icon,
+#status-bar toolbarbutton > .toolbarbutton-text,
+#status-bar toolbarbutton > .toolbarbutton-badge-stack {
+    border-radius: 0 !important;
+    min-height: 0 !important;
+}
+
+/* The floating link preview, used when the status bar is off or "Show links" */
+/* is unchecked: the same sunken pane, square and on the face colour. */
+
+#statuspanel-label {
+    margin: 0 !important;
+    padding: 1px 3px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background-color: #d4d0c8 !important;
+    color: #000000 !important;
+    text-shadow: none !important;
+}
+
+#statuspanel:not([hidden]) > #statuspanel-label {
+    box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #7f7f7f !important;
+}

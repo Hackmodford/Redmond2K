@@ -15,7 +15,8 @@ aren't are called out below.
 | [Lightdm/](Lightdm/) | A `lightdm-webkit2-greeter` theme styled after the Win2K logon dialog |
 | [sounds/](sounds/) | A freedesktop sound theme built from the Windows ME sounds, with a session-end daemon |
 | [xfce4-panel/](xfce4-panel/) | A saved panel profile (Start button, quick launch, tasklist, tray, clock) and the Grab Handle plugin |
-| [waterfox/](waterfox/) | A `userChrome.css` that makes Waterfox/Firefox look period-correct |
+| [waterfox/](waterfox/) | A `userChrome.css` that makes Waterfox look period-correct |
+| [firefox/](firefox/) | The same `userChrome.css`, kept separately for Firefox fixes |
 | [screensaver/](screensaver/) | Wine Saver: a Win2K-style Screen Saver dialog that previews and runs `.scr` files through Wine |
 
 Each directory with anything non-obvious has its own readme. This page is the
@@ -32,7 +33,7 @@ desktop:
 4. [Panel](#panel)
 5. [Sounds](#sounds)
 6. [LightDM greeter](#lightdm-greeter)
-7. [Waterfox](#waterfox)
+7. [Waterfox / Firefox](#waterfox--firefox)
 8. [Wine Saver](#wine-saver)
 
 ## Fonts
@@ -258,11 +259,12 @@ to try 4.1 first:
 Full build steps, dependencies and credits are in
 [Lightdm/Redmond2K/README.md](Lightdm/Redmond2K/README.md).
 
-## Waterfox
+## Waterfox / Firefox
 
 `waterfox/userChrome.css` restyles the browser chrome: bitmap navigation icons,
 Win2K bevels around the toolbars, flat square tabs, a recessed content frame,
-and the status bar. It works in Firefox too.
+and the status bar. `firefox/` is a copy of it for Firefox; use that folder
+in place of `waterfox/` below.
 
 Find your profile directory (`about:profiles` → Root Directory), then:
 

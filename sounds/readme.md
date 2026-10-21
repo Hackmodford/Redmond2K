@@ -23,8 +23,12 @@ It also installs the empty-trash sound (`trash_empty.sh`) as
 `~/.local/bin/redmond2k-trash-sound`, also autostarted. Thunar doesn't
 play theme sounds itself, so the script runs `gio monitor` on
 `~/.local/share/Trash/expunged`, where gvfs moves items just before it
-permanently deletes them from the trash. Emptying the trash (or deleting
-an item from inside it) plays `trash-empty.wav`; restoring stays silent.
+permanently deletes them from the trash. It also watches the per-drive
+trash (`.Trash-$UID/expunged`) of every mounted drive, since files
+trashed on another drive are expunged there; it rescans whenever a drive
+is mounted or unmounted (`findmnt --poll`). Emptying the trash (or
+deleting an item from inside it) plays `trash-empty.wav`; restoring stays
+silent.
 Needs `gio` and `paplay`.
 
 ### Manual
